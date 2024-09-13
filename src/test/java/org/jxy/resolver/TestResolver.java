@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 public class TestResolver {
     @Test
     public void test() throws IOException, URISyntaxException {
-        var resolver = new ResourceResolver("org.jxy.resolver");
+        var resolver = new ResourceResolver("ch.qos");
         resolver.scan(res -> {
             String name = res.name();
             if (name.endsWith(".class")) {

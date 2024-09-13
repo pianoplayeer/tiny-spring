@@ -14,6 +14,7 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 @Slf4j
@@ -41,7 +42,7 @@ public class ResourceResolver {
                 uriBase = uriBase.substring(5);
                 resources.addAll(scanFile(false, uriBase, Paths.get(uri), mapper));
             } else {
-                resources.addAll(scanFile(true, uriBase, getJarPath(uriStr, uriBase), mapper));
+                resources.addAll(scanFile(true, uriStr, getJarPath(uri, basePath), mapper));
             }
         }
 
@@ -71,10 +72,8 @@ public class ResourceResolver {
         return resources;
     }
 
-    private Path getJarPath(String jarPath, String base) throws IOException {
-        try (FileSystem fs = FileSystems.newFileSystem(Path.of(jarPath))) {
-            return fs.getPath(base);
-        }
+    private Path getJarPath(URI jarUri, String base) throws IOException {
+        return FileSystems.newFileSystem(jarUri, Map.of()).getPath(base);
     }
 
     private String removeHeadSlash(String uri) {
