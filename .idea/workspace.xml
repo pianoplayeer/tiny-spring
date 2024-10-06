@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="resource resolver completed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/PropertyResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/utils/YmlUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java" afterDir="false" />
     </list>
@@ -13,6 +19,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -25,21 +34,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;pianoplayeer&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/pianoplayeer/tiny-spring.git&quot;,
-    &quot;accountId&quot;: &quot;017b4917-7caa-49f8-b21d-1820ae8a4141&quot;
-  }
-}</component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
-}</component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
   <component name="ProjectId" id="2lunOjYfhSYEwWt8RCEV842ffWt" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -47,28 +55,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TestResolver.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TestResolver.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/jxy/IdeaProjects/tiny-spring/src/main/resources&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/jxy/IdeaProjects/tiny-spring/src/main/java/org/jxy/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\javawork\tiny-spring\src\main\resources" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestResolver.test">
+  <component name="RunManager" selected="JUnit.TestResolver.ymlLoadTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.jxy.Main" />
       <module name="tiny-spring" />
@@ -78,9 +80,7 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+      <method v="2" />
     </configuration>
     <configuration name="TestResolver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
@@ -96,6 +96,20 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="TestResolver.propertyResolveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tiny-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jxy.resolver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.jxy.resolver" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.resolver.TestResolver" />
+      <option name="METHOD_NAME" value="propertyResolveTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2" />
     </configuration>
     <configuration name="TestResolver.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
@@ -113,11 +127,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestResolver.ymlLoadTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tiny-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jxy.resolver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.jxy.resolver" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.resolver.TestResolver" />
+      <option name="METHOD_NAME" value="ymlLoadTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.TestResolver" />
+      <item itemvalue="JUnit.TestResolver.propertyResolveTest" />
+      <item itemvalue="JUnit.TestResolver.test" />
+      <item itemvalue="JUnit.TestResolver.ymlLoadTest" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestResolver.ymlLoadTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.TestResolver.propertyResolveTest" />
         <item itemvalue="JUnit.TestResolver.test" />
         <item itemvalue="JUnit.TestResolver" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -129,6 +166,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1726038801053</updated>
+      <workItem from="1726325663599" duration="1839000" />
+      <workItem from="1726366438636" duration="16670000" />
+      <workItem from="1728207330388" duration="2536000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -148,6 +188,9 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -169,29 +212,34 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/Main.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/Main.java</url>
-          <line>10</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java</url>
-          <line>10</line>
+          <line>13</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
-          <line>55</line>
+          <line>56</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
-          <line>40</line>
+          <line>41</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/Main.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
@@ -204,14 +252,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
-          <line>74</line>
+          <line>75</line>
           <properties class="org.jxy.resolver.ResourceResolver" method="getJarPath">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>jar://$PROJECT_DIR$/../../each-java/jdk-22_windows-x64_bin/jdk-22.0.2/lib/src.zip!/java.base/java/lang/String.java</url>
+          <line>4522</line>
+          <properties class="java.lang.String" method="valueOf">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="Main.class.getResource(&quot;classpath:logback.xml&quot;)" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

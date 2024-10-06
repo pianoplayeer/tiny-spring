@@ -29,6 +29,7 @@ public class ResourceResolver {
 
     private <R> List<R> doScan(String basePath, Function<Resource, R> mapper)
             throws IOException, URISyntaxException {
+        log.info("scan resources: {}", basePath);
         var urls = findResourcesURL(basePath);
         List<R> resources = new ArrayList<>();
 
