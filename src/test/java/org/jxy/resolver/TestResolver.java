@@ -2,7 +2,9 @@ package org.jxy.resolver;
 
 import org.junit.Test;
 import org.jxy.Main;
-import org.jxy.utils.YmlUtil;
+import org.jxy.spring.ioc.resolver.PropertyResolver;
+import org.jxy.spring.ioc.resolver.ResourceResolver;
+import org.jxy.spring.utils.YmlUtil;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

@@ -1,4 +1,4 @@
-package org.jxy.resolver;
+package org.jxy.spring.ioc.resolver;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -4,15 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="resource resolver completed">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/PropertyResolver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/utils/YmlUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="property resolver completed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Autowired.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Bean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Component.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/ComponentScan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Configuration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Import.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Primary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Value.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanDefinition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/NoUniqueBeanDefinitionException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/PropertyResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/PropertyResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/utils/YmlUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/YmlUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +38,7 @@
       <list>
         <option value="Record" />
         <option value="Class" />
+        <option value="AnnotationType" />
       </list>
     </option>
   </component>
@@ -168,7 +179,12 @@
       <updated>1726038801053</updated>
       <workItem from="1726325663599" duration="1839000" />
       <workItem from="1726366438636" duration="16670000" />
-      <workItem from="1728207330388" duration="2536000" />
+      <workItem from="1728207330388" duration="7157000" />
+      <workItem from="1728272635860" duration="1789000" />
+      <workItem from="1728492543976" duration="272000" />
+      <workItem from="1728492875082" duration="164000" />
+      <workItem from="1728550920695" duration="1261000" />
+      <workItem from="1728959094672" duration="7904000" />
     </task>
     <task id="LOCAL-00001" summary="git ignore">
       <option name="closed" value="true" />
@@ -186,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1726050522700</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="property resolver completed">
+      <created>1728219509671</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728219509671</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,54 +229,55 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="git ignore" />
     <MESSAGE value="resource resolver completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="resource resolver completed" />
+    <MESSAGE value="property resolver completed" />
+    <option name="LAST_COMMIT_MESSAGE" value="property resolver completed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java</url>
-          <line>13</line>
+          <line>15</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java</url>
           <line>56</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java</url>
           <line>41</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java</url>
-          <line>36</line>
+          <line>38</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/Main.java</url>
-          <line>11</line>
+          <line>9</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java</url>
-          <line>42</line>
+          <line>44</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java</url>
           <line>24</line>
-          <properties class="org.jxy.resolver.ResourceResolver" method="scan">
+          <properties class="org.jxy.spring.resolver.ResourceResolver" method="scan">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/resolver/ResourceResolver.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java</url>
           <line>75</line>
-          <properties class="org.jxy.resolver.ResourceResolver" method="getJarPath">
+          <properties class="org.jxy.spring.resolver.ResourceResolver" method="getJarPath">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

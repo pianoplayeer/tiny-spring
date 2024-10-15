@@ -1,4 +1,4 @@
-package org.jxy.utils;
+package org.jxy.spring.utils;
 
 import org.yaml.snakeyaml.Yaml;
 
