@@ -43,7 +43,7 @@ public class ApplicationContext {
 			Component component = ClassUtil.findAnnotation(clazz, Component.class);
 			var def = new BeanDefinition(
 					ClassUtil.findBeanName(clazz), clazz,
-					null, ClassUtil.findSuitableConstructor(clazz),
+					ClassUtil.findSuitableConstructor(clazz),
 					getOrder(clazz), clazz.isAnnotationPresent(Primary.class),
 					ClassUtil.findAnnotationMethod(clazz, PostConstruct.class),
 					ClassUtil.findAnnotationMethod(clazz, PreDestroy.class)
@@ -60,7 +60,20 @@ public class ApplicationContext {
 	private void scanForFactoryBeans(Class<?> clazz) {
 		for (Method method : clazz.getMethods()) {
 			if (method.isAnnotationPresent(Bean.class)) {
-				var def = new BeanDefinition()
+				Bean bean = method.getAnnotation(Bean.class);
+				
+				try {
+					var def = new BeanDefinition(
+							ClassUtil.findBeanName(method), clazz,
+							ClassUtil.findSuitableConstructor(clazz),
+							getOrder(method), method.isAnnotationPresent(Primary.class),
+							method, bean.initMethod(), bean.destroyMethod()
+					);
+					
+					addBeanDefinition(def);
+				} catch (NoSuchMethodException e) {
+					throw new BeanCreationException(e);
+				}
 			}
 		}
 	}
@@ -71,6 +84,11 @@ public class ApplicationContext {
 
 	private int getOrder(Class<?> clazz) {
 		Order order = ClassUtil.findAnnotation(clazz, Order.class);
+		return order == null ? Integer.MAX_VALUE : order.value();
+	}
+	
+	private int getOrder(Method method) {
+		Order order = method.getAnnotation(Order.class);
 		return order == null ? Integer.MAX_VALUE : order.value();
 	}
 	

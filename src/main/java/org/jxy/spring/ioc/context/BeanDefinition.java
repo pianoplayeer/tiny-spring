@@ -2,6 +2,7 @@ package org.jxy.spring.ioc.context;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -31,32 +32,40 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	private Method destroyMethod;
 
 	public BeanDefinition(String beanName, Class<?> clazz,
-						  Object instance, Constructor<?> constructor,
+						  Constructor<?> constructor,
 						  int order, boolean primary, Method factoryMethod,
 						  String initMethod, String destroyMethod) throws NoSuchMethodException {
 		this.beanName = beanName;
 		this.clazz = clazz;
-		this.instance = instance;
+		this.instance = null;
 		this.constructor = constructor;
 		this.order = order;
 		this.primary = primary;
 		this.factoryMethod = factoryMethod;
 
-		this.initMethod = clazz.getMethod(initMethod);
-		this.destroyMethod = clazz.getMethod(destroyMethod);
-
+		if (StringUtils.isNoneEmpty(initMethod)) {
+			this.initMethod = clazz.getMethod(initMethod);
+		}
+		if (StringUtils.isNoneEmpty(destroyMethod)) {
+			this.destroyMethod = clazz.getMethod(destroyMethod);
+		}
+		
 		constructor.setAccessible(true);
-		this.initMethod.setAccessible(true);
-		this.destroyMethod.setAccessible(true);
+		if (this.initMethod != null) {
+			this.initMethod.setAccessible(true);
+		}
+		if (this.destroyMethod != null) {
+			this.destroyMethod.setAccessible(true);
+		}
 	}
 
 	public BeanDefinition(String beanName, Class<?> clazz,
-						  Object instance, Constructor<?> constructor,
+						  Constructor<?> constructor,
 						  int order, boolean primary,
 						  Method initMethod, Method destroyMethod) {
 		this.beanName = beanName;
 		this.clazz = clazz;
-		this.instance = instance;
+		this.instance = null;
 		this.constructor = constructor;
 		this.order = order;
 		this.primary = primary;
