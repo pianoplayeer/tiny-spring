@@ -1,14 +1,17 @@
 package org.jxy.spring.ioc.context;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
-import org.jxy.spring.ioc.annotation.ComponentScan;
+import org.jxy.spring.ioc.annotation.*;
+import org.jxy.spring.ioc.exception.BeanCreationException;
 import org.jxy.spring.ioc.exception.NoUniqueBeanDefinitionException;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
+import org.jxy.spring.ioc.resolver.ResourceResolver;
+import org.jxy.spring.utils.ClassUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Method;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -17,16 +20,86 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class ApplicationContext {
-	private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+
+	private final PropertyResolver propertyResolver;
 	
 	public ApplicationContext(Class<?> configClass, PropertyResolver propertyResolver) {
-	
+		this.propertyResolver = propertyResolver;
+
+		Set<String> names = scanForClassNames(configClass);
+		createBeanDefinition(names);
+	}
+
+	private void createBeanDefinition(Set<String> classNames) {
+		for (String name : classNames) {
+			Class<?> clazz;
+			try {
+				clazz = Class.forName(name);
+			} catch (ClassNotFoundException e) {
+				throw new BeanCreationException(e);
+			}
+
+			Component component = ClassUtil.findAnnotation(clazz, Component.class);
+			var def = new BeanDefinition(
+					ClassUtil.findBeanName(clazz), clazz,
+					null, ClassUtil.findSuitableConstructor(clazz),
+					getOrder(clazz), clazz.isAnnotationPresent(Primary.class),
+					ClassUtil.findAnnotationMethod(clazz, PostConstruct.class),
+					ClassUtil.findAnnotationMethod(clazz, PreDestroy.class)
+					);
+			addBeanDefinition(def);
+
+			Configuration configuration = ClassUtil.findAnnotation(clazz, Configuration.class);
+			if (configuration != null) {
+				scanForFactoryBeans(clazz);
+			}
+		}
+	}
+
+	private void scanForFactoryBeans(Class<?> clazz) {
+		for (Method method : clazz.getMethods()) {
+			if (method.isAnnotationPresent(Bean.class)) {
+				var def = new BeanDefinition()
+			}
+		}
+	}
+
+	private void addBeanDefinition(BeanDefinition def) {
+		beanDefinitionMap.put(def.getBeanName(), def);
+	}
+
+	private int getOrder(Class<?> clazz) {
+		Order order = ClassUtil.findAnnotation(clazz, Order.class);
+		return order == null ? Integer.MAX_VALUE : order.value();
 	}
 	
 	private Set<String> scanForClassNames(Class<?> configClass) {
-		ComponentScan scan = configClass.getAnnotation(ComponentScan.class);
-		
-		
+		ComponentScan scan = ClassUtil.findAnnotation(configClass, ComponentScan.class);
+		String[] scanPackages = scan == null || scan.value().length == 0 ? new String[]{configClass.getPackageName()} : scan.value();
+		Set<String> classNames = new HashSet<>();
+
+		for (String p : scanPackages) {
+			ResourceResolver resolver = new ResourceResolver(p);
+			var list = resolver.scan(res -> {
+				String name = res.name();
+				if (name.endsWith(".class")) {
+					return name.substring(0, name.length() - 6).replace("/", ".").replace("\\", ".");
+				}
+				return null;
+			});
+
+			classNames.addAll(list);
+		}
+
+		Import importConfig = ClassUtil.findAnnotation(configClass, Import.class);
+		if (importConfig != null) {
+			for (Class<?> clazz : importConfig.value()) {
+				classNames.add(clazz.getName());
+			}
+		}
+
+		return classNames;
 	}
 	
 	public BeanDefinition findBeanDefinition(String name) {

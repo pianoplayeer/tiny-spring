@@ -22,9 +22,13 @@ import java.util.function.Function;
 public class ResourceResolver {
     private String basePackage;
 
-    public <R> List<R> scan(Function<Resource, R> mapper) throws IOException, URISyntaxException {
+    public <R> List<R> scan(Function<Resource, R> mapper) {
         String basePath = basePackage.replace(".", "/");
-        return doScan(basePath, mapper);
+        try {
+            return doScan(basePath, mapper);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private <R> List<R> doScan(String basePath, Function<Resource, R> mapper)

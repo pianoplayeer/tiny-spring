@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        System.out.println(YmlUtil.loadYml(Main.class.getResourceAsStream("/application.yml")));
+        System.out.println(Main.class.getPackage().getName());
+        System.out.println(Main.class.getPackageName());
     }
 }
