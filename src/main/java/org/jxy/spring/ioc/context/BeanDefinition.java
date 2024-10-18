@@ -2,15 +2,18 @@ package org.jxy.spring.ioc.context;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * @date 2024/10/6
  * @package org.jxy.spring.ioc.resolver
  */
+@Slf4j
 @Getter
 public class BeanDefinition implements Comparable<BeanDefinition> {
 	private String beanName;
@@ -32,25 +35,28 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	private Method destroyMethod;
 
 	public BeanDefinition(String beanName, Class<?> clazz,
-						  Constructor<?> constructor,
 						  int order, boolean primary, Method factoryMethod,
-						  String initMethod, String destroyMethod) throws NoSuchMethodException {
+						  String initMethod, String destroyMethod) {
 		this.beanName = beanName;
 		this.clazz = clazz;
 		this.instance = null;
-		this.constructor = constructor;
+		this.constructor = null;
 		this.order = order;
 		this.primary = primary;
 		this.factoryMethod = factoryMethod;
 
-		if (StringUtils.isNoneEmpty(initMethod)) {
-			this.initMethod = clazz.getMethod(initMethod);
+		try {
+			if (StringUtils.isNoneEmpty(initMethod)) {
+				this.initMethod = clazz.getMethod(initMethod);
+			}
+			if (StringUtils.isNoneEmpty(destroyMethod)) {
+				this.destroyMethod = clazz.getMethod(destroyMethod);
+			}
+		} catch (NoSuchMethodException e) {
+			log.warn("No such init/destroy method for bean {}", beanName);
 		}
-		if (StringUtils.isNoneEmpty(destroyMethod)) {
-			this.destroyMethod = clazz.getMethod(destroyMethod);
-		}
-		
-		constructor.setAccessible(true);
+
+		factoryMethod.setAccessible(true);
 		if (this.initMethod != null) {
 			this.initMethod.setAccessible(true);
 		}
@@ -91,5 +97,20 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 		}
 		
 		return beanName.compareTo(o.beanName);
+	}
+
+	public String getCreateDetail() {
+		if (this.factoryMethod != null) {
+			String params = String.join(", ", Arrays.stream(this.factoryMethod.getParameterTypes()).map(Class::getSimpleName).toArray(String[]::new));
+			return this.factoryMethod.getDeclaringClass().getSimpleName() + "." + this.factoryMethod.getName() + "(" + params + ")";
+		}
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "BeanDefinition [name=" + beanName + ", beanClass=" + clazz.getName() + ", factory=" + getCreateDetail() + ", init-method="
+				+ (initMethod == null ? "null" : initMethod.getName()) + ", destroy-method=" + (destroyMethod == null ? "null" : destroyMethod.getName())
+				+ ", primary=" + primary + ", instance=" + instance + "]";
 	}
 }

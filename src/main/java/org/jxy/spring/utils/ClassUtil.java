@@ -15,13 +15,30 @@ import java.util.List;
 
 public class ClassUtil {
     public static String findBeanName(Class<?> clazz) {
-        Component component = ClassUtil.findAnnotation(clazz, Component.class);
-        if (StringUtils.isNoneBlank(component.value())) {
+        Component component = clazz.getAnnotation(Component.class);
+
+        if (component != null && StringUtils.isNoneBlank(component.value())) {
             return component.value();
         }
 
+        if (component == null) {
+            for (Annotation annotation : clazz.getAnnotations()) {
+                if (findAnnotation(annotation.annotationType(), Component.class) != null) {
+                    try {
+                        String name = (String) annotation.annotationType().getMethod("value").invoke(annotation);
+                        if (StringUtils.isNoneBlank(name)) {
+                            return name;
+                        }
+                        break;
+                    } catch (Exception e) {
+                        throw new BeanDefinitionException("Cannot get annotation value.", e);
+                    }
+                }
+            }
+        }
+
         String simpleName = clazz.getSimpleName();
-        return simpleName.substring(0, 1).toLowerCase() + simpleName.substring(1);
+        return Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
     }
 
     public static String findBeanName(Method method) {
@@ -34,22 +51,17 @@ public class ClassUtil {
     public static <A extends Annotation> A findAnnotation(Class<?> clazz, Class<A> annoClass) {
         A a = clazz.getAnnotation(annoClass);
 
-        List<Annotation> list = Arrays.stream(clazz.getAnnotations()).toList();
-        while (!list.isEmpty()) {
-            List<Annotation> next = new ArrayList<>();
-            for (Annotation annotation : list) {
-                if (annoClass.isAssignableFrom(annotation.annotationType())) {
-                    if (a != null) {
-                        throw new BeanDefinitionException("Duplicate @" + annoClass.getSimpleName() + " found on class " + clazz.getSimpleName());
-                    } else {
-                        a = (A) annotation;
-                    }
+        for (Annotation annotation : clazz.getAnnotations()) {
+            Class<? extends Annotation> annoType = annotation.annotationType();
+            if (!annoType.getPackageName().equals("java.lang.annotation")) {
+                A found = findAnnotation(annoType, annoClass);
+                if (found != null) {
+                   if (a != null) {
+                       throw new BeanDefinitionException("Duplicate @" + annoClass.getSimpleName() + " found on class " + clazz.getSimpleName());
+                   }
+                   a = found;
                 }
-
-                next.addAll(List.of(annotation.annotationType().getAnnotations()));
             }
-
-            list = next;
         }
 
         return a;

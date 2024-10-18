@@ -5,12 +5,14 @@ import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.jxy.spring.ioc.annotation.*;
 import org.jxy.spring.ioc.exception.BeanCreationException;
+import org.jxy.spring.ioc.exception.BeanDefinitionException;
 import org.jxy.spring.ioc.exception.NoUniqueBeanDefinitionException;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.resolver.ResourceResolver;
 import org.jxy.spring.utils.ClassUtil;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,15 +42,20 @@ public class ApplicationContext {
 				throw new BeanCreationException(e);
 			}
 
-			Component component = ClassUtil.findAnnotation(clazz, Component.class);
-			var def = new BeanDefinition(
-					ClassUtil.findBeanName(clazz), clazz,
-					ClassUtil.findSuitableConstructor(clazz),
-					getOrder(clazz), clazz.isAnnotationPresent(Primary.class),
-					ClassUtil.findAnnotationMethod(clazz, PostConstruct.class),
-					ClassUtil.findAnnotationMethod(clazz, PreDestroy.class)
-					);
-			addBeanDefinition(def);
+			if (clazz.isAnnotation()) {
+				continue;
+			}
+
+			if (ClassUtil.findAnnotation(clazz, Component.class) != null) {
+				var def = new BeanDefinition(
+						ClassUtil.findBeanName(clazz), clazz,
+						ClassUtil.findSuitableConstructor(clazz),
+						getOrder(clazz), clazz.isAnnotationPresent(Primary.class),
+						ClassUtil.findAnnotationMethod(clazz, PostConstruct.class),
+						ClassUtil.findAnnotationMethod(clazz, PreDestroy.class)
+				);
+				addBeanDefinition(def);
+			}
 
 			Configuration configuration = ClassUtil.findAnnotation(clazz, Configuration.class);
 			if (configuration != null) {
@@ -58,22 +65,37 @@ public class ApplicationContext {
 	}
 
 	private void scanForFactoryBeans(Class<?> clazz) {
-		for (Method method : clazz.getMethods()) {
+		for (Method method : clazz.getDeclaredMethods()) {
 			if (method.isAnnotationPresent(Bean.class)) {
 				Bean bean = method.getAnnotation(Bean.class);
-				
-				try {
-					var def = new BeanDefinition(
-							ClassUtil.findBeanName(method), clazz,
-							ClassUtil.findSuitableConstructor(clazz),
-							getOrder(method), method.isAnnotationPresent(Primary.class),
-							method, bean.initMethod(), bean.destroyMethod()
-					);
-					
-					addBeanDefinition(def);
-				} catch (NoSuchMethodException e) {
-					throw new BeanCreationException(e);
+				int mod = method.getModifiers();
+
+				if (Modifier.isAbstract(mod)) {
+					throw new BeanDefinitionException("@Bean method " + clazz.getName() + "." + method.getName() + " must not be abstract.");
 				}
+				if (Modifier.isFinal(mod)) {
+					throw new BeanDefinitionException("@Bean method " + clazz.getName() + "." + method.getName() + " must not be final.");
+				}
+				if (Modifier.isPrivate(mod)) {
+					throw new BeanDefinitionException("@Bean method " + clazz.getName() + "." + method.getName() + " must not be private.");
+				}
+
+				Class<?> beanClass = method.getReturnType();
+				if (beanClass.isPrimitive()) {
+					throw new BeanDefinitionException("@Bean method " + clazz.getName() + "." + method.getName() + " must not return primitive type.");
+				}
+				if (beanClass == void.class || beanClass == Void.class) {
+					throw new BeanDefinitionException("@Bean method " + clazz.getName() + "." + method.getName() + " must not return void.");
+				}
+
+				var def = new BeanDefinition(
+						ClassUtil.findBeanName(method), beanClass,
+						getOrder(method), method.isAnnotationPresent(Primary.class),
+						method, bean.initMethod(), bean.destroyMethod()
+				);
+
+				addBeanDefinition(def);
+				log.info("define bean: {}", def);
 			}
 		}
 	}
@@ -145,7 +167,7 @@ public class ApplicationContext {
 		}
 	}
 	
-	private List<BeanDefinition> findBeanDefinitions(Class<?> type) {
+	public List<BeanDefinition> findBeanDefinitions(Class<?> type) {
 		return beanDefinitionMap.values().stream()
 					   .filter(e -> type.isAssignableFrom(e.getClazz()))
 					   .sorted()
