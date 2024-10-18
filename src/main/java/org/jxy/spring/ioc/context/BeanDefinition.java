@@ -2,6 +2,7 @@ package org.jxy.spring.ioc.context;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,7 +20,8 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	private String beanName;
 	
 	private Class<?> clazz;
-	
+
+	@Setter
 	private Object instance;
 	
 	private Constructor<?> constructor;

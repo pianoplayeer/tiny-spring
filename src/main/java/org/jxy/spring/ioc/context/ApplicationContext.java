@@ -7,12 +7,15 @@ import org.jxy.spring.ioc.annotation.*;
 import org.jxy.spring.ioc.exception.BeanCreationException;
 import org.jxy.spring.ioc.exception.BeanDefinitionException;
 import org.jxy.spring.ioc.exception.NoUniqueBeanDefinitionException;
+import org.jxy.spring.ioc.exception.UnsatisfiedDependencyException;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.resolver.ResourceResolver;
 import org.jxy.spring.utils.ClassUtil;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,15 +25,52 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class ApplicationContext {
-	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
 	private final PropertyResolver propertyResolver;
+
+	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+
+	private final Set<String> creatingBeanNames = new HashSet<>();
 	
 	public ApplicationContext(Class<?> configClass, PropertyResolver propertyResolver) {
 		this.propertyResolver = propertyResolver;
 
 		Set<String> names = scanForClassNames(configClass);
 		createBeanDefinition(names);
+
+		beanDefinitionMap.values().stream()
+				.filter(def -> def.getClazz().isAnnotationPresent(Configuration.class))
+				.forEach(this::createBeanAsEarlySingleton);
+
+		beanDefinitionMap.values().stream()
+				.filter(def -> def.getInstance() == null)
+				.sorted()
+				.forEach(def -> {
+					if (def.getInstance() == null) {
+						createBeanAsEarlySingleton(def);
+					}
+				});
+	}
+
+	private void createBeanAsEarlySingleton(BeanDefinition beanDefinition) {
+		if (!creatingBeanNames.add(beanDefinition.getBeanName())) {
+			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created.", beanDefinition.getBeanName()));
+		}
+
+		Executable createFunc = beanDefinition.getFactoryMethod() == null ?
+				beanDefinition.getConstructor() : beanDefinition.getFactoryMethod();
+
+		Parameter[] params = createFunc.getParameters();
+		Object[] args = new Object[params.length];
+
+		for (int i = 0; i < params.length; i++) {
+			Value value = params[i].getAnnotation(Value.class);
+			Autowired autowired = params[i].getAnnotation(Autowired.class);
+
+
+		}
+
+		beanDefinition.setInstance();
 	}
 
 	private void createBeanDefinition(Set<String> classNames) {

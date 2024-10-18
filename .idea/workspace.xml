@@ -4,41 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="bean def">
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/imported/LocalDateConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/imported/ZonedDateConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/ScanApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/convert/ValueConverterBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/custom/annotation/CustomAnnotation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/custom/annotation/CustomAnnotationBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/AnnotationDestroyBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/SpecifyDestroyBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/SpecifyDestroyConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/AnnotationInitBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/SpecifyInitBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/SpecifyInitConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/nested/OuterBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/DogBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/PersonBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/PrimaryConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/StudentBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/TeacherBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/Sub1Bean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/sub2/Sub2Bean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/sub2/sub3/Sub3Bean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/summer/context/AnnotationConfigApplicationContextTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/summer/utils/AnnoUtilsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/summer/utils/CustomComponent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/logback-test.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="bean def test and debug">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/UnsatisfiedDependencyException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanDefinitionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanDefinitionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/resolver/TestResolver.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +69,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
-    "JUnit.AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext.executor": "Debug",
+    "JUnit.AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext.executor": "Run",
     "Maven.tiny-spring [compile].executor": "Run",
     "Maven.tiny-spring [test].executor": "Run",
     "git-widget-placeholder": "main",
@@ -252,7 +222,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729161952978</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="bean def test and debug">
+      <option name="closed" value="true" />
+      <created>1729231625408</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729231625408</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +252,9 @@
     <MESSAGE value="resource resolver completed" />
     <MESSAGE value="property resolver completed" />
     <MESSAGE value="bean def" />
-    <option name="LAST_COMMIT_MESSAGE" value="bean def" />
+    <MESSAGE value="bean def debug" />
+    <MESSAGE value="bean def test and debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="bean def test and debug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -300,11 +280,6 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <condition expression="constructors.length == 0" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java</url>
           <line>75</line>
@@ -318,7 +293,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="clazz == OuterBean.class" language="JAVA" custom="org.jxy.spring.ioc.scan.nested.OuterBean" />
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>44</line>
+          <line>84</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
