@@ -14,7 +14,7 @@ public @interface Autowired {
 	/**
 	 * Is required.
 	 */
-	boolean value() default true;
+	boolean required() default true;
 	
 	/**
 	 * Bean name if set.

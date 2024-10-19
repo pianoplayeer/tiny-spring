@@ -4,18 +4,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.jxy.spring.ioc.annotation.*;
-import org.jxy.spring.ioc.exception.BeanCreationException;
-import org.jxy.spring.ioc.exception.BeanDefinitionException;
-import org.jxy.spring.ioc.exception.NoUniqueBeanDefinitionException;
-import org.jxy.spring.ioc.exception.UnsatisfiedDependencyException;
+import org.jxy.spring.ioc.exception.*;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.resolver.ResourceResolver;
 import org.jxy.spring.utils.ClassUtil;
 
-import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,14 +45,34 @@ public class ApplicationContext {
 					}
 				});
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getBean(String beanName) {
+		BeanDefinition def = findBeanDefinition(beanName);
+		if (def == null) {
+			return null;
+		}
+		
+		return (T) def.getInstance();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getBean(Class<T> type) {
+		BeanDefinition def = findBeanDefinition(type);
+		if (def == null) {
+			return null;
+		}
+		
+		return (T) def.getInstance();
+	}
 
-	private void createBeanAsEarlySingleton(BeanDefinition beanDefinition) {
-		if (!creatingBeanNames.add(beanDefinition.getBeanName())) {
-			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created.", beanDefinition.getBeanName()));
+	private void createBeanAsEarlySingleton(BeanDefinition def) {
+		if (!creatingBeanNames.add(def.getBeanName())) {
+			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created.", def.getBeanName()));
 		}
 
-		Executable createFunc = beanDefinition.getFactoryMethod() == null ?
-				beanDefinition.getConstructor() : beanDefinition.getFactoryMethod();
+		Executable createFunc = def.getFactoryMethod() == null ?
+				def.getConstructor() : def.getFactoryMethod();
 
 		Parameter[] params = createFunc.getParameters();
 		Object[] args = new Object[params.length];
@@ -67,10 +81,73 @@ public class ApplicationContext {
 			Value value = params[i].getAnnotation(Value.class);
 			Autowired autowired = params[i].getAnnotation(Autowired.class);
 
-
+			// Configuration的bean是工厂，不能通过Autowired进行注入
+			if (isConfigurationBean(def) && autowired != null) {
+				throw new BeanCreationException(String.format("Cannot specify @Autowired when create @Configuration bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
+			}
+			
+			// 参数不能同时标有@Value和@Autowired
+			if (value != null && autowired != null) {
+				throw new BeanCreationException(
+						String.format("Cannot specify both @Autowired and @Value when create bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
+			}
+			
+			if (value != null) {
+				args[i] = propertyResolver.getProperty(value.value(), params[i].getType());
+			} else if (autowired == null) {
+				BeanDefinition beanDef = findBeanDefinition(params[i].getType());
+				if (beanDef == null) {
+					throw new BeanCreationException(String.format("No such %s type bean.", params[i].getType()));
+				}
+				
+				if (beanDef.getInstance() == null) {
+					createBeanAsEarlySingleton(beanDef);
+				}
+				args[i] = beanDef.getInstance();
+			} else {
+				String name = autowired.name();
+				BeanDefinition beanDef = null;
+				
+				if (name.isEmpty()) {
+					beanDef = findBeanDefinition(params[i].getType());
+				} else {
+					beanDef = findBeanDefinition(name, params[i].getType());
+				}
+				
+				if (beanDef == null && autowired.required()) {
+					throw new BeanCreationException(String.format("Missing autowired bean with type '%s' when create bean '%s': %s.", params[i].getType().getName(),
+							def.getBeanName(), def.getClazz().getName()));
+				}
+				
+				if (beanDef != null) {
+					if (beanDef.getInstance() == null) {
+						createBeanAsEarlySingleton(beanDef);
+					}
+					args[i] = beanDef.getInstance();
+				} else {
+					args[i] = null;
+				}
+			}
 		}
-
-		beanDefinition.setInstance();
+		
+		Object instance = null;
+		try {
+			if (def.getFactoryMethod() != null) {
+				Method method = def.getFactoryMethod();
+				Object configInstance = findBeanDefinition(method.getDeclaringClass()).getInstance();
+				instance = method.invoke(configInstance, args);
+			} else {
+				instance = def.getConstructor().newInstance(args);
+			}
+		} catch (ReflectiveOperationException e) {
+			throw new BeanCreationException(e);
+		}
+		
+		def.setInstance(instance);
+	}
+	
+	private boolean isConfigurationBean(BeanDefinition def) {
+		return ClassUtil.findAnnotation(def.getClazz(), Configuration.class) != null;
 	}
 
 	private void createBeanDefinition(Set<String> classNames) {
@@ -180,6 +257,16 @@ public class ApplicationContext {
 		}
 
 		return classNames;
+	}
+	
+	public BeanDefinition findBeanDefinition(String name, Class<?> type) {
+		BeanDefinition def = findBeanDefinition(name);
+		
+		if (def != null && !type.isAssignableFrom(def.getClazz())) {
+			throw new BeanTypeNotConsistentException(String.format("The type of bean %s is not %s, but is %s.", name, type.getName(), def.getClazz().getName()));
+		}
+		
+		return def;
 	}
 	
 	public BeanDefinition findBeanDefinition(String name) {

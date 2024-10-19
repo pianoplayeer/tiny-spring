@@ -1,28 +1,71 @@
-package org.jxy.spring.ioc.summer.context;
+package org.jxy.spring.ioc.context;
 
 
 import org.junit.jupiter.api.Test;
-import org.jxy.spring.ioc.context.ApplicationContext;
-import org.jxy.spring.ioc.context.BeanDefinition;
 import org.jxy.spring.ioc.imported.LocalDateConfiguration;
 import org.jxy.spring.ioc.imported.ZonedDateConfiguration;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.scan.ScanApplication;
 import org.jxy.spring.ioc.scan.custom.annotation.CustomAnnotationBean;
 import org.jxy.spring.ioc.scan.nested.OuterBean;
+import org.jxy.spring.ioc.scan.primary.DogBean;
 import org.jxy.spring.ioc.scan.primary.PersonBean;
 import org.jxy.spring.ioc.scan.primary.StudentBean;
 import org.jxy.spring.ioc.scan.primary.TeacherBean;
+import org.jxy.spring.ioc.scan.sub1.Sub1Bean;
+import org.jxy.spring.ioc.scan.sub1.sub2.Sub2Bean;
+import org.jxy.spring.ioc.scan.sub1.sub2.sub3.Sub3Bean;
 
 import java.util.List;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AnnotationConfigApplicationContextTest {
-
+public class ApplicationContextTest {
+    
     @Test
-    public void testAnnotationConfigApplicationContext() {
+    public void testCustomAnnotation() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        assertNotNull(ctx.getBean(CustomAnnotationBean.class));
+        assertNotNull(ctx.getBean("customAnnotation"));
+    }
+    
+    @Test
+    public void testImport() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        assertNotNull(ctx.getBean(LocalDateConfiguration.class));
+        assertNotNull(ctx.getBean("startLocalDate"));
+        assertNotNull(ctx.getBean("startLocalDateTime"));
+        assertNotNull(ctx.getBean(ZonedDateConfiguration.class));
+        assertNotNull(ctx.getBean("startZonedDateTime"));
+    }
+    
+    @Test
+    public void testNested() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        ctx.getBean(OuterBean.class);
+        ctx.getBean(OuterBean.NestedBean.class);
+    }
+    
+    @Test
+    public void testPrimary() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var person = ctx.getBean(PersonBean.class);
+        assertEquals(TeacherBean.class, person.getClass());
+        var dog = ctx.getBean(DogBean.class);
+        assertEquals("Husky", dog.type);
+    }
+    
+    @Test
+    public void testSub() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        ctx.getBean(Sub1Bean.class);
+        ctx.getBean(Sub2Bean.class);
+        ctx.getBean(Sub3Bean.class);
+    }
+    
+    @Test
+    public void testApplicationContext() {
         var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
         // @CustomAnnotation:
         assertNotNull(ctx.findBeanDefinition(CustomAnnotationBean.class));

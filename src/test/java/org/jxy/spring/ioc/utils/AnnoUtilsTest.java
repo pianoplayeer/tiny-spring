@@ -1,4 +1,4 @@
-package org.jxy.spring.ioc.summer.utils;
+package org.jxy.spring.ioc.utils;
 
 import org.junit.jupiter.api.Test;
 import org.jxy.spring.ioc.annotation.Component;
