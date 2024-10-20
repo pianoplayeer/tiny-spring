@@ -36,6 +36,7 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	
 	private Method destroyMethod;
 
+	// TODO: init和destroy如果是@Bean，应延迟到bean创建完之后到实际类型中查找
 	public BeanDefinition(String beanName, Class<?> clazz,
 						  int order, boolean primary, Method factoryMethod,
 						  String initMethod, String destroyMethod) {
@@ -48,11 +49,12 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 		this.factoryMethod = factoryMethod;
 
 		try {
+			Class<?> target = factoryMethod.getReturnType();
 			if (StringUtils.isNoneEmpty(initMethod)) {
-				this.initMethod = clazz.getMethod(initMethod);
+				this.initMethod = target.getDeclaredMethod(initMethod);
 			}
 			if (StringUtils.isNoneEmpty(destroyMethod)) {
-				this.destroyMethod = clazz.getMethod(destroyMethod);
+				this.destroyMethod = target.getDeclaredMethod(destroyMethod);
 			}
 		} catch (NoSuchMethodException e) {
 			log.warn("No such init/destroy method for bean {}", beanName);

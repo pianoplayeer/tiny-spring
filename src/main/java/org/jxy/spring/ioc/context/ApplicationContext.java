@@ -32,10 +32,148 @@ public class ApplicationContext {
 		Set<String> names = scanForClassNames(configClass);
 		createBeanDefinition(names);
 
+		instantiateBeans();
+		populateBeans();
+		initiateBeans();
+	}
+	
+	private void initiateBeans() {
+		beanDefinitionMap.values().stream()
+				.filter(def -> def.getInitMethod() != null)
+				.forEach(def -> {
+					try {
+						def.getInitMethod().invoke(def.getInstance());
+					} catch (ReflectiveOperationException e) {
+						throw new BeanPostInitException(e);
+					}
+				});
+	}
+	
+	private void populateBeans() {
+		beanDefinitionMap.values().forEach(def -> {
+			try {
+				populateBean(def);
+			} catch (Exception e) {
+				throw new BeanInjectionException(e);
+			}
+		});
+	}
+	
+	private void populateBean(BeanDefinition def) throws ReflectiveOperationException {
+		if (def.getInstance() == null) {
+			throw new BeanInjectionException(String.format("Cannot inject bean %s before instantiate it.", def.getBeanName()));
+		}
+		
+		// @Autowired与@Value属性反射注入
+		Class<?> clazz = def.getClazz();
+		Object instance = def.getInstance();
+		String beanName = def.getBeanName();
+		
+		doPopulateBean(beanName, instance, clazz);
+		
+		Class<?> superClazz = clazz.getSuperclass();
+		if (superClazz != null) {
+			doPopulateBean(beanName, instance, superClazz);
+		}
+	}
+	
+	private void doPopulateBean(String beanName, Object instance, Class<?> clazz)
+			throws ReflectiveOperationException {
+		Field[] fields = clazz.getDeclaredFields();
+		
+		for (Field field : fields) {
+			Autowired autowired = field.getAnnotation(Autowired.class);
+			Value value = field.getAnnotation(Value.class);
+			
+			if (autowired == null && value == null) {
+				continue;
+			}
+			
+			// 参数不能同时标有@Value和@Autowired
+			if (value != null && autowired != null) {
+				throw new BeanInjectionException(
+						String.format("Cannot specify both @Autowired and @Value when inject %s bean into %s@%s.", field.getType().getName(), beanName, clazz.getName()));
+			}
+			
+			field.setAccessible(true);
+			if (value != null) {
+				field.set(instance, propertyResolver.getProperty(value.value(), field.getType()));
+			} else {
+				Object bean = autowired.name().isEmpty() ? getBean(autowired.name()) : getBean(field.getType());
+				if (bean == null && autowired.required()) {
+					throw new BeanInjectionException(String.format("No such bean %s@%s to inject to bean %s.", autowired.name(), field.getType().getName(), beanName));
+				} else if (bean != null) {
+					if (field.getType().isAssignableFrom(bean.getClass())) {
+						field.set(instance, bean);
+					} else {
+						throw new BeanInjectionException(String.format("Bean %s@%s cannot be assigned to type %s field.",
+								ClassUtil.findBeanName(bean.getClass()), bean.getClass().getName(), field.getType().getName()));
+					}
+				}
+			}
+		}
+		
+		// setter方式注入
+		for (Method method : findSetters(clazz)) {
+			Autowired autowired = method.getAnnotation(Autowired.class);
+			Parameter param = method.getParameters()[0];
+			if (autowired == null) {
+				autowired = param.getAnnotation(Autowired.class);
+			}
+			
+			Object bean;
+			if (autowired != null) {
+				String name = autowired.name();
+				bean = name.isEmpty() ? getBean(param.getType()) : getBean(name);
+			} else {
+				bean = getBean(param.getType());
+			}
+			
+			if (bean == null && (autowired == null || autowired.required())) {
+				throw new BeanInjectionException(String.format("No %s@%s bean can be injected to the property of %s.",
+						autowired == null ? "" : autowired.name(), param.getType().getName(), clazz.getName()));
+			}
+			
+			if (bean != null) {
+				method.invoke(instance, bean);
+			}
+		}
+	}
+	
+	// 必须符合setXXX格式，XXX为类的属性名且第一个字符为大写
+	private List<Method> findSetters(Class<?> clazz) {
+		String prefix = "set";
+		Map<String, Class<?>> setterNameToType = new HashMap<>();
+		List<Method> setters = new ArrayList<>();
+		
+		for (Field field : clazz.getDeclaredFields()) {
+			int mod = field.getModifiers();
+			if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
+				continue;
+			}
+			
+			String name = prefix + Character.toLowerCase(field.getName().charAt(0)) + field.getName().substring(1);
+			setterNameToType.put(name, field.getType());
+		}
+		
+		for (Method method : clazz.getDeclaredMethods()) {
+			Class<?> type = setterNameToType.get(method.getName());
+			Parameter[] params = method.getParameters();
+			
+			if (type != null && params.length == 1
+						&& type.isAssignableFrom(params[0].getType())) {
+				setters.add(method);
+			}
+		}
+		
+		return setters;
+	}
+	
+	private void instantiateBeans() {
 		beanDefinitionMap.values().stream()
 				.filter(def -> def.getClazz().isAnnotationPresent(Configuration.class))
 				.forEach(this::createBeanAsEarlySingleton);
-
+		
 		beanDefinitionMap.values().stream()
 				.filter(def -> def.getInstance() == null)
 				.sorted()
@@ -82,7 +220,7 @@ public class ApplicationContext {
 			Autowired autowired = params[i].getAnnotation(Autowired.class);
 
 			// Configuration的bean是工厂，不能通过Autowired进行注入
-			if (isConfigurationBean(def) && autowired != null) {
+			if (isConfigurationBean(def) && value == null) {
 				throw new BeanCreationException(String.format("Cannot specify @Autowired when create @Configuration bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
 			}
 			
@@ -106,7 +244,7 @@ public class ApplicationContext {
 				args[i] = beanDef.getInstance();
 			} else {
 				String name = autowired.name();
-				BeanDefinition beanDef = null;
+				BeanDefinition beanDef;
 				
 				if (name.isEmpty()) {
 					beanDef = findBeanDefinition(params[i].getType());

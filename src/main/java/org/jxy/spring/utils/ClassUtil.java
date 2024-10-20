@@ -81,7 +81,7 @@ public class ClassUtil {
     }
 
     public static <A extends Annotation> Method findAnnotationMethod(Class<?> clazz, Class<A> annoClass) {
-        Method[] methods = clazz.getMethods();
+        Method[] methods = clazz.getDeclaredMethods();
         for (Method m : methods) {
             if (m.isAnnotationPresent(annoClass)) {
                 return m;

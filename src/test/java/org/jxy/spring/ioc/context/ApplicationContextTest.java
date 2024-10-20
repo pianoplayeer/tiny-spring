@@ -6,7 +6,10 @@ import org.jxy.spring.ioc.imported.LocalDateConfiguration;
 import org.jxy.spring.ioc.imported.ZonedDateConfiguration;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.scan.ScanApplication;
+import org.jxy.spring.ioc.scan.convert.ValueConverterBean;
 import org.jxy.spring.ioc.scan.custom.annotation.CustomAnnotationBean;
+import org.jxy.spring.ioc.scan.init.AnnotationInitBean;
+import org.jxy.spring.ioc.scan.init.SpecifyInitBean;
 import org.jxy.spring.ioc.scan.nested.OuterBean;
 import org.jxy.spring.ioc.scan.primary.DogBean;
 import org.jxy.spring.ioc.scan.primary.PersonBean;
@@ -16,6 +19,7 @@ import org.jxy.spring.ioc.scan.sub1.Sub1Bean;
 import org.jxy.spring.ioc.scan.sub1.sub2.Sub2Bean;
 import org.jxy.spring.ioc.scan.sub1.sub2.sub3.Sub3Bean;
 
+import java.time.*;
 import java.util.List;
 import java.util.Properties;
 
@@ -31,6 +35,16 @@ public class ApplicationContextTest {
     }
     
     @Test
+    public void testInitMethod() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        // test @PostConstruct:
+        var bean1 = ctx.getBean(AnnotationInitBean.class);
+        var bean2 = ctx.getBean(SpecifyInitBean.class);
+        assertEquals("Scan App / v1.0", bean1.appName);
+        assertEquals("Scan App / v1.0", bean2.appName);
+    }
+    
+    @Test
     public void testImport() {
         var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
         assertNotNull(ctx.getBean(LocalDateConfiguration.class));
@@ -38,6 +52,47 @@ public class ApplicationContextTest {
         assertNotNull(ctx.getBean("startLocalDateTime"));
         assertNotNull(ctx.getBean(ZonedDateConfiguration.class));
         assertNotNull(ctx.getBean("startZonedDateTime"));
+    }
+    
+    @Test
+    public void testConverter() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var bean = ctx.getBean(ValueConverterBean.class);
+        
+        assertNotNull(bean.injectedBoolean);
+        assertTrue(bean.injectedBooleanPrimitive);
+        assertTrue(bean.injectedBoolean);
+        
+        assertNotNull(bean.injectedByte);
+        assertEquals((byte) 123, bean.injectedByte);
+        assertEquals((byte) 123, bean.injectedBytePrimitive);
+        
+        assertNotNull(bean.injectedShort);
+        assertEquals((short) 12345, bean.injectedShort);
+        assertEquals((short) 12345, bean.injectedShortPrimitive);
+        
+        assertNotNull(bean.injectedInteger);
+        assertEquals(1234567, bean.injectedInteger);
+        assertEquals(1234567, bean.injectedIntPrimitive);
+        
+        assertNotNull(bean.injectedLong);
+        assertEquals(123456789_000L, bean.injectedLong);
+        assertEquals(123456789_000L, bean.injectedLongPrimitive);
+        
+        assertNotNull(bean.injectedFloat);
+        assertEquals(12345.6789F, bean.injectedFloat, 0.0001F);
+        assertEquals(12345.6789F, bean.injectedFloatPrimitive, 0.0001F);
+        
+        assertNotNull(bean.injectedDouble);
+        assertEquals(123456789.87654321, bean.injectedDouble, 0.0000001);
+        assertEquals(123456789.87654321, bean.injectedDoublePrimitive, 0.0000001);
+        
+        assertEquals(LocalDate.parse("2023-03-29"), bean.injectedLocalDate);
+        assertEquals(LocalTime.parse("20:45:01"), bean.injectedLocalTime);
+        assertEquals(LocalDateTime.parse("2023-03-29T20:45:01"), bean.injectedLocalDateTime);
+        assertEquals(ZonedDateTime.parse("2023-03-29T20:45:01+08:00[Asia/Shanghai]"), bean.injectedZonedDateTime);
+        assertEquals(Duration.parse("P2DT3H4M"), bean.injectedDuration);
+        assertEquals(ZoneId.of("Asia/Shanghai"), bean.injectedZoneId);
     }
     
     @Test
