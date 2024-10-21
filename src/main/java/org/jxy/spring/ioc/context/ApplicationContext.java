@@ -25,7 +25,11 @@ public class ApplicationContext {
 
 	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
+	private final Set<String> registeredBeanNames = new HashSet<>();
+
 	private final Set<String> creatingBeanNames = new HashSet<>();
+
+	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 	
 	public ApplicationContext(Class<?> configClass, PropertyResolver propertyResolver) {
 		this.propertyResolver = propertyResolver;
@@ -36,6 +40,10 @@ public class ApplicationContext {
 		instantiateBeans();
 		populateBeans();
 		initiateBeans();
+	}
+
+	private void createBeans() {
+
 	}
 	
 	private void initiateBeans() {
@@ -48,16 +56,16 @@ public class ApplicationContext {
 						if (initMethod == null) {
 							initMethod = def.getInstance().getClass().getDeclaredMethod(def.getInitMethodName());
 							def.setInitMethod(initMethod);
-							initMethod.setAccessible(true);
 						}
 
 						if (initMethod != null) {
+							initMethod.setAccessible(true);
 							initMethod.invoke(def.getInstance());
 						} else {
-							throw new BeanPostInitException(String.format("No init method named %s in Bean %s@%s.", def.getInitMethodName(), def.getBeanName(), def.getClazz().getName()));
+							throw new BeanInitException(String.format("No init method named %s in Bean %s@%s.", def.getInitMethodName(), def.getBeanName(), def.getClazz().getName()));
 						}
 					} catch (ReflectiveOperationException e) {
-						throw new BeanPostInitException(e);
+						throw new BeanInitException(e);
 					}
 				});
 	}
@@ -186,6 +194,13 @@ public class ApplicationContext {
 		beanDefinitionMap.values().stream()
 				.filter(def -> def.getClazz().isAnnotationPresent(Configuration.class))
 				.forEach(this::createBeanAsEarlySingleton);
+
+		List<BeanPostProcessor> processors = beanDefinitionMap.values().stream()
+				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
+				.sorted()
+				.map(def -> (BeanPostProcessor) createBeanAsEarlySingleton(def))
+				.toList();
+		beanPostProcessors.addAll(processors);
 		
 		beanDefinitionMap.values().stream()
 				.filter(def -> def.getInstance() == null)
@@ -217,9 +232,13 @@ public class ApplicationContext {
 		return (T) def.getInstance();
 	}
 
-	private void createBeanAsEarlySingleton(BeanDefinition def) {
+	private Object createBeanAsEarlySingleton(BeanDefinition def) {
+		if (!registeredBeanNames.add(def.getBeanName())) {
+			throw new UnsatisfiedDependencyException(String.format("The name %s has been used.", def.getBeanName()));
+		}
+
 		if (!creatingBeanNames.add(def.getBeanName())) {
-			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created.", def.getBeanName()));
+			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created. There may be cyclic conflicts.", def.getBeanName()));
 		}
 
 		Executable createFunc = def.getFactoryMethod() == null ?
@@ -295,6 +314,10 @@ public class ApplicationContext {
 		}
 		
 		def.setInstance(instance);
+
+		creatingBeanNames.remove(def.getBeanName());
+
+		return def.getInstance();
 	}
 	
 	private boolean isConfigurationBean(BeanDefinition def) {
