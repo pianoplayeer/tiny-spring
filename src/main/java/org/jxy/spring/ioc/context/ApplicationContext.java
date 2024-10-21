@@ -3,6 +3,7 @@ package org.jxy.spring.ioc.context;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jxy.spring.ioc.annotation.*;
 import org.jxy.spring.ioc.exception.*;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
@@ -39,10 +40,22 @@ public class ApplicationContext {
 	
 	private void initiateBeans() {
 		beanDefinitionMap.values().stream()
-				.filter(def -> def.getInitMethod() != null)
+				.filter(def -> StringUtils.isNoneEmpty(def.getInitMethodName()))
 				.forEach(def -> {
 					try {
-						def.getInitMethod().invoke(def.getInstance());
+						Method initMethod = def.getInitMethod();
+
+						if (initMethod == null) {
+							initMethod = def.getInstance().getClass().getDeclaredMethod(def.getInitMethodName());
+							def.setInitMethod(initMethod);
+							initMethod.setAccessible(true);
+						}
+
+						if (initMethod != null) {
+							initMethod.invoke(def.getInstance());
+						} else {
+							throw new BeanPostInitException(String.format("No init method named %s in Bean %s@%s.", def.getInitMethodName(), def.getBeanName(), def.getClazz().getName()));
+						}
 					} catch (ReflectiveOperationException e) {
 						throw new BeanPostInitException(e);
 					}

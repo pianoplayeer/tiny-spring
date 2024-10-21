@@ -31,15 +31,22 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	private boolean primary;
 	
 	private Method factoryMethod;
-	
+
+	private String initMethodName;
+
+	private String destroyMethodName;
+
+	@Setter
 	private Method initMethod;
-	
+
+	@Setter
 	private Method destroyMethod;
 
-	// TODO: init和destroy如果是@Bean，应延迟到bean创建完之后到实际类型中查找
+	// 用于@Bean类型的
+	// initMethod和destroyMethod为null，应在进行初始化时，到实例类里查找具体方法
 	public BeanDefinition(String beanName, Class<?> clazz,
 						  int order, boolean primary, Method factoryMethod,
-						  String initMethod, String destroyMethod) {
+						  String initMethodName, String destroyMethodName) {
 		this.beanName = beanName;
 		this.clazz = clazz;
 		this.instance = null;
@@ -47,28 +54,13 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 		this.order = order;
 		this.primary = primary;
 		this.factoryMethod = factoryMethod;
-
-		try {
-			Class<?> target = factoryMethod.getReturnType();
-			if (StringUtils.isNoneEmpty(initMethod)) {
-				this.initMethod = target.getDeclaredMethod(initMethod);
-			}
-			if (StringUtils.isNoneEmpty(destroyMethod)) {
-				this.destroyMethod = target.getDeclaredMethod(destroyMethod);
-			}
-		} catch (NoSuchMethodException e) {
-			log.warn("No such init/destroy method for bean {}", beanName);
-		}
+		this.initMethodName = initMethodName;
+		this.destroyMethodName = destroyMethodName;
 
 		factoryMethod.setAccessible(true);
-		if (this.initMethod != null) {
-			this.initMethod.setAccessible(true);
-		}
-		if (this.destroyMethod != null) {
-			this.destroyMethod.setAccessible(true);
-		}
 	}
 
+	// 用于@Component类型的Bean
 	public BeanDefinition(String beanName, Class<?> clazz,
 						  Constructor<?> constructor,
 						  int order, boolean primary,
@@ -86,9 +78,11 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 
 		constructor.setAccessible(true);
 		if (initMethod != null) {
+			initMethodName = initMethod.getName();
 			initMethod.setAccessible(true);
 		}
 		if (destroyMethod != null) {
+			destroyMethodName = destroyMethod.getName();
 			destroyMethod.setAccessible(true);
 		}
 	}

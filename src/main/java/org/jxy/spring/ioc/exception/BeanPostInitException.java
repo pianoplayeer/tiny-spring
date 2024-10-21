@@ -8,4 +8,8 @@ public class BeanPostInitException extends RuntimeException {
 	public BeanPostInitException(Exception e) {
 		super(e);
 	}
+
+	public BeanPostInitException(String msg) {
+		super(msg);
+	}
 }
