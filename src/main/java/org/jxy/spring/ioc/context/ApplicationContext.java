@@ -37,12 +37,37 @@ public class ApplicationContext {
 		Set<String> names = scanForClassNames(configClass);
 		createBeanDefinition(names);
 
-		instantiateBeans();
-		populateBeans();
-		initiateBeans();
+		createBeans();
 	}
 
+	/**
+	 * 实例化 -> 属性注入 -> BeanPostProcessor.postProcessBeforeInit
+	 * -> init -> BeanPostProcessor.postProcessAfterInit
+	 */
 	private void createBeans() {
+		// 先生成Configuration工厂Bean
+		beanDefinitionMap.values().stream()
+				.filter(def -> def.getClazz().isAnnotationPresent(Configuration.class))
+				.forEach(this::createBean);
+
+		List<BeanPostProcessor> processors = beanDefinitionMap.values().stream()
+				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
+				.sorted()
+				.map(def -> (BeanPostProcessor) createBean(def))
+				.toList();
+		beanPostProcessors.addAll(processors);
+
+		beanDefinitionMap.values().stream()
+				.filter(def -> def.getInstance() == null && !def.isLazy())
+				.sorted()
+				.forEach(def -> {
+					if (def.getInstance() == null) {
+						createBean(def);
+					}
+				});
+	}
+
+	private Object createBean(BeanDefinition def) {
 
 	}
 	
@@ -218,7 +243,10 @@ public class ApplicationContext {
 		if (def == null) {
 			return null;
 		}
-		
+
+		if (def.getInstance() == null) {
+			createBean(def);
+		}
 		return (T) def.getInstance();
 	}
 	
@@ -228,7 +256,10 @@ public class ApplicationContext {
 		if (def == null) {
 			return null;
 		}
-		
+
+		if (def.getInstance() == null) {
+			createBean(def);
+		}
 		return (T) def.getInstance();
 	}
 
@@ -342,6 +373,7 @@ public class ApplicationContext {
 						ClassUtil.findBeanName(clazz), clazz,
 						ClassUtil.findSuitableConstructor(clazz),
 						getOrder(clazz), clazz.isAnnotationPresent(Primary.class),
+						ClassUtil.findAnnotation(clazz, Lazy.class) != null,
 						ClassUtil.findAnnotationMethod(clazz, PostConstruct.class),
 						ClassUtil.findAnnotationMethod(clazz, PreDestroy.class)
 				);
@@ -382,6 +414,7 @@ public class ApplicationContext {
 				var def = new BeanDefinition(
 						ClassUtil.findBeanName(method), beanClass,
 						getOrder(method), method.isAnnotationPresent(Primary.class),
+						method.isAnnotationPresent(Lazy.class),
 						method, bean.initMethod(), bean.destroyMethod()
 				);
 

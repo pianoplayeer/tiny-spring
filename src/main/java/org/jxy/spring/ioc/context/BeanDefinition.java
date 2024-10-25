@@ -36,6 +36,8 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 
 	private String destroyMethodName;
 
+	private boolean lazy;
+
 	@Setter
 	private Method initMethod;
 
@@ -45,7 +47,8 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	// 用于@Bean类型的
 	// initMethod和destroyMethod为null，应在进行初始化时，到实例类里查找具体方法
 	public BeanDefinition(String beanName, Class<?> clazz,
-						  int order, boolean primary, Method factoryMethod,
+						  int order, boolean primary, boolean lazy,
+						  Method factoryMethod,
 						  String initMethodName, String destroyMethodName) {
 		this.beanName = beanName;
 		this.clazz = clazz;
@@ -53,6 +56,7 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 		this.constructor = null;
 		this.order = order;
 		this.primary = primary;
+		this.lazy = lazy;
 		this.factoryMethod = factoryMethod;
 		this.initMethodName = initMethodName;
 		this.destroyMethodName = destroyMethodName;
@@ -63,7 +67,7 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	// 用于@Component类型的Bean
 	public BeanDefinition(String beanName, Class<?> clazz,
 						  Constructor<?> constructor,
-						  int order, boolean primary,
+						  int order, boolean primary, boolean lazy,
 						  Method initMethod, Method destroyMethod) {
 		this.beanName = beanName;
 		this.clazz = clazz;
@@ -71,6 +75,7 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 		this.constructor = constructor;
 		this.order = order;
 		this.primary = primary;
+		this.lazy = lazy;
 		this.factoryMethod = null;
 
 		this.initMethod = initMethod;
