@@ -24,6 +24,12 @@ public class ApplicationContext {
 	private final PropertyResolver propertyResolver;
 
 	private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+	
+	private final Map<String, Object> singleObjects = new HashMap<>();
+	
+	private final Map<String, Object> earlySingleObjects = new HashMap<>();
+	
+	private final Map<String, ObjectFactory> singleObjectFactories = new HashMap<>();
 
 	private final Set<String> registeredBeanNames = new HashSet<>();
 
@@ -35,40 +41,170 @@ public class ApplicationContext {
 		this.propertyResolver = propertyResolver;
 
 		Set<String> names = scanForClassNames(configClass);
-		createBeanDefinition(names);
-
+		createBeanDefinitions(names);
+		
+		registerBeanPostProcessors();
 		createBeans();
 	}
-
+	
+	private Object getSingleton(String name, boolean allowEarlyExposed) {
+		Object bean = singleObjects.get(name);
+		
+		if (bean == null && creatingBeanNames.contains(name)) {
+			bean = earlySingleObjects.get(name);
+			if (bean == null && allowEarlyExposed) {
+				var factory = singleObjectFactories.get(name);
+				if (factory != null) {
+					bean = factory.getObject();
+					singleObjectFactories.remove(name);
+					earlySingleObjects.put(name, bean);
+				}
+			}
+		}
+		
+		return bean;
+	}
+	
+	private void createBeans() {
+		beanDefinitionMap.values().stream()
+				.filter(def -> singleObjects.get(def.getBeanName()) == null)
+				.forEach(this::createBean);
+	}
+	
+	private void registerBeanPostProcessors() {
+		var processors = beanDefinitionMap.values().stream()
+				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
+				.map(def -> (BeanPostProcessor) createBean(def))
+				.toList();
+		this.beanPostProcessors.addAll(processors);
+	}
+	
+	private Object getEarlyObject(String beanName, Object bean) {
+		// TODO: 提前AOP
+		singleObjectFactories.remove(beanName);
+		earlySingleObjects.put(beanName, bean);
+		return bean;
+	}
+	
 	/**
 	 * 实例化 -> 属性注入 -> BeanPostProcessor.postProcessBeforeInit
 	 * -> init -> BeanPostProcessor.postProcessAfterInit
 	 */
-	private void createBeans() {
-		// 先生成Configuration工厂Bean
-		beanDefinitionMap.values().stream()
-				.filter(def -> def.getClazz().isAnnotationPresent(Configuration.class))
-				.forEach(this::createBean);
-
-		List<BeanPostProcessor> processors = beanDefinitionMap.values().stream()
-				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
-				.sorted()
-				.map(def -> (BeanPostProcessor) createBean(def))
-				.toList();
-		beanPostProcessors.addAll(processors);
-
-		beanDefinitionMap.values().stream()
-				.filter(def -> def.getInstance() == null && !def.isLazy())
-				.sorted()
-				.forEach(def -> {
-					if (def.getInstance() == null) {
-						createBean(def);
-					}
-				});
-	}
-
 	private Object createBean(BeanDefinition def) {
-
+		if (!registeredBeanNames.add(def.getBeanName())) {
+			throw new BeanCreationException(String.format("Duplicate bean name %s.", def.getBeanName()));
+		}
+		
+		creatingBeanNames.add(def.getBeanName());
+		Object bean = createBeanInstance(def);
+		singleObjectFactories.put(def.getBeanName(), () -> getEarlyObject(def.getBeanName(), bean));
+		
+		populateBean(bean, def);
+		bean = initializeBean(bean, def);
+		
+		Object exposedBean = getSingleton(def.getBeanName(), false);
+		if (bean != exposedBean) {
+		
+		}
+		
+		creatingBeanNames.remove(def.getBeanName());
+		log.info("Create bean {}@{}", def.getBeanName(), def.getClazz().getSimpleName());
+	}
+	
+	private Object initializeBean(Object bean, BeanDefinition def) {
+	
+	}
+	
+	private Object createBeanInstance(BeanDefinition def) {
+		if (!registeredBeanNames.add(def.getBeanName())) {
+			throw new UnsatisfiedDependencyException(String.format("The name %s has been used.", def.getBeanName()));
+		}
+		
+		if (!creatingBeanNames.add(def.getBeanName())) {
+			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created. There may be cyclic conflicts.", def.getBeanName()));
+		}
+		
+		Executable createFunc = def.getFactoryMethod() == null ?
+										def.getConstructor() : def.getFactoryMethod();
+		
+		Parameter[] params = createFunc.getParameters();
+		Object[] args = new Object[params.length];
+		
+		for (int i = 0; i < params.length; i++) {
+			Value value = params[i].getAnnotation(Value.class);
+			Autowired autowired = params[i].getAnnotation(Autowired.class);
+			
+			// Configuration的bean是工厂，不能通过Autowired进行注入
+			if (isConfigurationBean(def) && value == null) {
+				throw new BeanCreationException(String.format("Cannot specify @Autowired when create @Configuration bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
+			}
+			
+			// 参数不能同时标有@Value和@Autowired
+			if (value != null && autowired != null) {
+				throw new BeanCreationException(
+						String.format("Cannot specify both @Autowired and @Value when create bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
+			}
+			
+			if (value != null) {
+				args[i] = propertyResolver.getProperty(value.value(), params[i].getType());
+			} else if (autowired == null) {
+				BeanDefinition beanDef = findBeanDefinition(params[i].getType());
+				if (beanDef == null) {
+					throw new BeanCreationException(String.format("No such %s type bean.", params[i].getType()));
+				}
+				
+				if (beanDef.getInstance() == null) {
+					createBeanAsEarlySingleton(beanDef);
+				}
+				args[i] = beanDef.getInstance();
+			} else {
+				String name = autowired.name();
+				BeanDefinition beanDef;
+				
+				if (name.isEmpty()) {
+					beanDef = findBeanDefinition(params[i].getType());
+				} else {
+					beanDef = findBeanDefinition(name, params[i].getType());
+				}
+				
+				if (beanDef == null && autowired.required()) {
+					throw new BeanCreationException(String.format("Missing autowired bean with type '%s' when create bean '%s': %s.", params[i].getType().getName(),
+							def.getBeanName(), def.getClazz().getName()));
+				}
+				
+				if (beanDef != null) {
+					if (beanDef.getInstance() == null) {
+						createBeanAsEarlySingleton(beanDef);
+					}
+					args[i] = beanDef.getInstance();
+				} else {
+					args[i] = null;
+				}
+			}
+		}
+		
+		Object instance = null;
+		try {
+			if (def.getFactoryMethod() != null) {
+				Method method = def.getFactoryMethod();
+				Object configInstance = findBeanDefinition(method.getDeclaringClass()).getInstance();
+				instance = method.invoke(configInstance, args);
+			} else {
+				instance = def.getConstructor().newInstance(args);
+			}
+		} catch (ReflectiveOperationException e) {
+			throw new BeanCreationException(e);
+		}
+		
+		def.setInstance(instance);
+		
+		creatingBeanNames.remove(def.getBeanName());
+		
+		return def.getInstance();
+	}
+	
+	private Object createBeanAsEarlySingleton(BeanDefinition def) {
+	
 	}
 	
 	private void initiateBeans() {
@@ -95,31 +231,24 @@ public class ApplicationContext {
 				});
 	}
 	
-	private void populateBeans() {
-		beanDefinitionMap.values().forEach(def -> {
-			try {
-				populateBean(def);
-			} catch (Exception e) {
-				throw new BeanInjectionException(e);
-			}
-		});
-	}
-	
-	private void populateBean(BeanDefinition def) throws ReflectiveOperationException {
-		if (def.getInstance() == null) {
+	private void populateBean(Object bean, BeanDefinition def) {
+		if (bean == null) {
 			throw new BeanInjectionException(String.format("Cannot inject bean %s before instantiate it.", def.getBeanName()));
 		}
 		
 		// @Autowired与@Value属性反射注入
 		Class<?> clazz = def.getClazz();
-		Object instance = def.getInstance();
 		String beanName = def.getBeanName();
 		
-		doPopulateBean(beanName, instance, clazz);
-		
-		Class<?> superClazz = clazz.getSuperclass();
-		if (superClazz != null) {
-			doPopulateBean(beanName, instance, superClazz);
+		try {
+			doPopulateBean(beanName, bean, clazz);
+			
+			Class<?> superClazz = clazz.getSuperclass();
+			if (superClazz != null) {
+				doPopulateBean(beanName, bean, superClazz);
+			}
+		} catch (ReflectiveOperationException e) {
+			throw new BeanInjectionException(e);
 		}
 	}
 	
@@ -215,27 +344,7 @@ public class ApplicationContext {
 		return setters;
 	}
 	
-	private void instantiateBeans() {
-		beanDefinitionMap.values().stream()
-				.filter(def -> def.getClazz().isAnnotationPresent(Configuration.class))
-				.forEach(this::createBeanAsEarlySingleton);
-
-		List<BeanPostProcessor> processors = beanDefinitionMap.values().stream()
-				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
-				.sorted()
-				.map(def -> (BeanPostProcessor) createBeanAsEarlySingleton(def))
-				.toList();
-		beanPostProcessors.addAll(processors);
-		
-		beanDefinitionMap.values().stream()
-				.filter(def -> def.getInstance() == null)
-				.sorted()
-				.forEach(def -> {
-					if (def.getInstance() == null) {
-						createBeanAsEarlySingleton(def);
-					}
-				});
-	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getBean(String beanName) {
@@ -263,99 +372,13 @@ public class ApplicationContext {
 		return (T) def.getInstance();
 	}
 
-	private Object createBeanAsEarlySingleton(BeanDefinition def) {
-		if (!registeredBeanNames.add(def.getBeanName())) {
-			throw new UnsatisfiedDependencyException(String.format("The name %s has been used.", def.getBeanName()));
-		}
-
-		if (!creatingBeanNames.add(def.getBeanName())) {
-			throw new UnsatisfiedDependencyException(String.format("Cannot create bean %s since it is being created. There may be cyclic conflicts.", def.getBeanName()));
-		}
-
-		Executable createFunc = def.getFactoryMethod() == null ?
-				def.getConstructor() : def.getFactoryMethod();
-
-		Parameter[] params = createFunc.getParameters();
-		Object[] args = new Object[params.length];
-
-		for (int i = 0; i < params.length; i++) {
-			Value value = params[i].getAnnotation(Value.class);
-			Autowired autowired = params[i].getAnnotation(Autowired.class);
-
-			// Configuration的bean是工厂，不能通过Autowired进行注入
-			if (isConfigurationBean(def) && value == null) {
-				throw new BeanCreationException(String.format("Cannot specify @Autowired when create @Configuration bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
-			}
-			
-			// 参数不能同时标有@Value和@Autowired
-			if (value != null && autowired != null) {
-				throw new BeanCreationException(
-						String.format("Cannot specify both @Autowired and @Value when create bean '%s': %s.", def.getBeanName(), def.getClazz().getName()));
-			}
-			
-			if (value != null) {
-				args[i] = propertyResolver.getProperty(value.value(), params[i].getType());
-			} else if (autowired == null) {
-				BeanDefinition beanDef = findBeanDefinition(params[i].getType());
-				if (beanDef == null) {
-					throw new BeanCreationException(String.format("No such %s type bean.", params[i].getType()));
-				}
-				
-				if (beanDef.getInstance() == null) {
-					createBeanAsEarlySingleton(beanDef);
-				}
-				args[i] = beanDef.getInstance();
-			} else {
-				String name = autowired.name();
-				BeanDefinition beanDef;
-				
-				if (name.isEmpty()) {
-					beanDef = findBeanDefinition(params[i].getType());
-				} else {
-					beanDef = findBeanDefinition(name, params[i].getType());
-				}
-				
-				if (beanDef == null && autowired.required()) {
-					throw new BeanCreationException(String.format("Missing autowired bean with type '%s' when create bean '%s': %s.", params[i].getType().getName(),
-							def.getBeanName(), def.getClazz().getName()));
-				}
-				
-				if (beanDef != null) {
-					if (beanDef.getInstance() == null) {
-						createBeanAsEarlySingleton(beanDef);
-					}
-					args[i] = beanDef.getInstance();
-				} else {
-					args[i] = null;
-				}
-			}
-		}
-		
-		Object instance = null;
-		try {
-			if (def.getFactoryMethod() != null) {
-				Method method = def.getFactoryMethod();
-				Object configInstance = findBeanDefinition(method.getDeclaringClass()).getInstance();
-				instance = method.invoke(configInstance, args);
-			} else {
-				instance = def.getConstructor().newInstance(args);
-			}
-		} catch (ReflectiveOperationException e) {
-			throw new BeanCreationException(e);
-		}
-		
-		def.setInstance(instance);
-
-		creatingBeanNames.remove(def.getBeanName());
-
-		return def.getInstance();
-	}
+	
 	
 	private boolean isConfigurationBean(BeanDefinition def) {
 		return ClassUtil.findAnnotation(def.getClazz(), Configuration.class) != null;
 	}
 
-	private void createBeanDefinition(Set<String> classNames) {
+	private void createBeanDefinitions(Set<String> classNames) {
 		for (String name : classNames) {
 			Class<?> clazz;
 			try {
@@ -379,11 +402,8 @@ public class ApplicationContext {
 				);
 				addBeanDefinition(def);
 			}
-
-			Configuration configuration = ClassUtil.findAnnotation(clazz, Configuration.class);
-			if (configuration != null) {
-				scanForFactoryBeans(clazz);
-			}
+			
+			scanForFactoryBeans(clazz);
 		}
 	}
 

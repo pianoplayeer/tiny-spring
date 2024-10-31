@@ -20,9 +20,6 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	private String beanName;
 	
 	private Class<?> clazz;
-
-	@Setter
-	private Object instance;
 	
 	private Constructor<?> constructor;
 	
@@ -52,7 +49,6 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 						  String initMethodName, String destroyMethodName) {
 		this.beanName = beanName;
 		this.clazz = clazz;
-		this.instance = null;
 		this.constructor = null;
 		this.order = order;
 		this.primary = primary;
@@ -71,7 +67,6 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 						  Method initMethod, Method destroyMethod) {
 		this.beanName = beanName;
 		this.clazz = clazz;
-		this.instance = null;
 		this.constructor = constructor;
 		this.order = order;
 		this.primary = primary;
@@ -114,6 +109,6 @@ public class BeanDefinition implements Comparable<BeanDefinition> {
 	public String toString() {
 		return "BeanDefinition [name=" + beanName + ", beanClass=" + clazz.getName() + ", factory=" + getCreateDetail() + ", init-method="
 				+ (initMethod == null ? "null" : initMethod.getName()) + ", destroy-method=" + (destroyMethod == null ? "null" : destroyMethod.getName())
-				+ ", primary=" + primary + ", instance=" + instance + "]";
+				+ ", primary=" + primary + "]";
 	}
 }
