@@ -364,21 +364,26 @@ public class ApplicationContext {
 						String.format("Cannot specify both @Autowired and @Value when create bean '%s': %s.", beanName, instance.getClass().getName()));
 			}
 
-			Object bean;
-			if (autowired != null) {
-				String name = autowired.name();
-				bean = name.isEmpty() ? getBean(param.getType()) : getBean(name);
+			Object obj;
+
+			if (value != null) {
+				obj = propertyResolver.getProperty(value.value());
 			} else {
-				bean = getBean(param.getType());
+				if (autowired != null) {
+					String name = autowired.name();
+					obj = name.isEmpty() ? getBean(param.getType()) : getBean(name);
+				} else {
+					obj = getBean(param.getType());
+				}
 			}
 			
-			if (bean == null && (autowired == null || autowired.required())) {
+			if (obj == null && (autowired == null || autowired.required())) {
 				throw new BeanInjectionException(String.format("No %s@%s bean can be injected to the property of %s.",
 						autowired == null ? "" : autowired.name(), param.getType().getName(), clazz.getName()));
 			}
 			
-			if (bean != null) {
-				method.invoke(instance, bean);
+			if (obj != null) {
+				method.invoke(instance, obj);
 			}
 		}
 	}
@@ -395,7 +400,7 @@ public class ApplicationContext {
 				continue;
 			}
 			
-			String name = prefix + Character.toLowerCase(field.getName().charAt(0)) + field.getName().substring(1);
+			String name = prefix + Character.toUpperCase(field.getName().charAt(0)) + field.getName().substring(1);
 			setterNameToType.put(name, field.getType());
 		}
 		
@@ -420,8 +425,13 @@ public class ApplicationContext {
 	}
 	
 	public <T> T getBean(Class<T> type) {
-		BeanDefinition def = findBeanDefinition(type);
-		return getBean(def.getBeanName());
+		try {
+			BeanDefinition def = findBeanDefinition(type);
+			return getBean(def.getBeanName());
+		} catch (Exception _) {
+		}
+
+		return null;
 	}
 
 	
