@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="bean def test and debug">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/UnsatisfiedDependencyException.java" afterDir="false" />
+    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="开始改造">
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/Door.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/LazyBone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/FirstProxyBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/FirstProxyBeanPostProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnConstructorBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnPropertyBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/OriginBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/SecondProxyBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/SecondProxyBeanPostProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanDefinition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanPostProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +31,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
+        <option value="Interface" />
         <option value="AnnotationType" />
         <option value="Class" />
       </list>
@@ -70,107 +80,125 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "JUnit.AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext.executor": "Run",
+    "JUnit.ApplicationContextTest.executor": "Run",
+    "JUnit.ApplicationContextTest.testCustomAnnotation.executor": "Debug",
+    "JUnit.ApplicationContextTest.testLazyBean.executor": "Run",
+    "JUnit.ApplicationContextTest.testProxy.executor": "Run",
+    "JUnit.ApplicationContextTest.testSub.executor": "Run",
     "Maven.tiny-spring [compile].executor": "Run",
     "Maven.tiny-spring [test].executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jxy/IdeaProjects/tiny-spring/src/test/java/org/jxy/spring/ioc"
+    "last_opened_file_path": "/Users/jxy/IdeaProjects/tiny-spring/src/test/java/org/jxy/spring/ioc/scan/proxy",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy" />
       <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc" />
       <recent name="$PROJECT_DIR$/src/test/resources" />
       <recent name="E:\javawork\tiny-spring\src\main\resources" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.jxy.Main" />
+  <component name="RunManager" selected="JUnit.ApplicationContextTest.testProxy">
+    <configuration name="ApplicationContextTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.jxy.*" />
+          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2" />
+      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration name="AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ApplicationContextTest.testCustomAnnotation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.jxy.spring.ioc.summer.context.*" />
+          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.summer.context" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.summer.context.AnnotationConfigApplicationContextTest" />
-      <option name="METHOD_NAME" value="testAnnotationConfigApplicationContext" />
+      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
+      <option name="METHOD_NAME" value="testCustomAnnotation" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestResolver.propertyResolveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ApplicationContextTest.testLazyBean" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.jxy.resolver.*" />
+          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.resolver" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.resolver.TestResolver" />
-      <option name="METHOD_NAME" value="propertyResolveTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestResolver.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tiny-spring" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.jxy.resolver.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.resolver" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.resolver.TestResolver" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
+      <option name="METHOD_NAME" value="testLazyBean" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestResolver.ymlLoadTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ApplicationContextTest.testProxy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.jxy.resolver.*" />
+          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.resolver" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.resolver.TestResolver" />
-      <option name="METHOD_NAME" value="ymlLoadTest" />
+      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
+      <option name="METHOD_NAME" value="testProxy" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApplicationContextTest.testSub" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tiny-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
+      <option name="METHOD_NAME" value="testSub" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="JUnit.AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext" />
-      <item itemvalue="JUnit.TestResolver.propertyResolveTest" />
-      <item itemvalue="JUnit.TestResolver.test" />
-      <item itemvalue="JUnit.TestResolver.ymlLoadTest" />
+      <item itemvalue="JUnit.ApplicationContextTest.testLazyBean" />
+      <item itemvalue="JUnit.ApplicationContextTest.testProxy" />
+      <item itemvalue="JUnit.ApplicationContextTest.testSub" />
+      <item itemvalue="JUnit.ApplicationContextTest" />
+      <item itemvalue="JUnit.ApplicationContextTest.testCustomAnnotation" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AnnotationConfigApplicationContextTest.testAnnotationConfigApplicationContext" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.TestResolver.ymlLoadTest" />
-        <item itemvalue="JUnit.TestResolver.propertyResolveTest" />
-        <item itemvalue="JUnit.TestResolver.test" />
+        <item itemvalue="JUnit.ApplicationContextTest.testProxy" />
+        <item itemvalue="JUnit.ApplicationContextTest.testLazyBean" />
+        <item itemvalue="JUnit.ApplicationContextTest.testSub" />
+        <item itemvalue="JUnit.ApplicationContextTest" />
+        <item itemvalue="JUnit.ApplicationContextTest.testCustomAnnotation" />
       </list>
     </recent_temporary>
   </component>
@@ -230,7 +258,39 @@
       <option name="project" value="LOCAL" />
       <updated>1729231625408</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="bean creation">
+      <option name="closed" value="true" />
+      <created>1729247181097</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1729247181097</updated>
+    </task>
+    <task id="LOCAL-00007" summary="完善bean的初始化">
+      <option name="closed" value="true" />
+      <created>1729481334511</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1729481334511</updated>
+    </task>
+    <task id="LOCAL-00008" summary="BeanPostProcessor start">
+      <option name="closed" value="true" />
+      <created>1729502238620</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1729502238620</updated>
+    </task>
+    <task id="LOCAL-00009" summary="开始改造">
+      <option name="closed" value="true" />
+      <created>1729853713314</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729853713314</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,7 +314,11 @@
     <MESSAGE value="bean def" />
     <MESSAGE value="bean def debug" />
     <MESSAGE value="bean def test and debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="bean def test and debug" />
+    <MESSAGE value="bean creation" />
+    <MESSAGE value="完善bean的初始化" />
+    <MESSAGE value="BeanPostProcessor start" />
+    <MESSAGE value="开始改造" />
+    <option name="LAST_COMMIT_MESSAGE" value="开始改造" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -291,10 +355,30 @@
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <condition expression="clazz == OuterBean.class" language="JAVA" custom="org.jxy.spring.ioc.scan.nested.OuterBean" />
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java</url>
+          <line>146</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/OriginBean.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>84</line>
-          <option name="timeStamp" value="30" />
+          <line>334</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="def.getBeanName().equals(&quot;originBean&quot;)" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java</url>
@@ -313,6 +397,24 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
+          <line>193</line>
+          <properties class="org.jxy.spring.ioc.context.ApplicationContext" method="doGetBean">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
+          <line>201</line>
+          <properties class="org.jxy.spring.ioc.context.ApplicationContext" method="doGetBean">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

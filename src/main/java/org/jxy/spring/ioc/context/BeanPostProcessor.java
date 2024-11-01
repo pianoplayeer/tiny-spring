@@ -3,7 +3,7 @@ package org.jxy.spring.ioc.context;
 public interface BeanPostProcessor {
 
     /**
-     * Invoked after new Bean().
+     * Invoked before bean.init() called.
      */
     default Object postProcessBeforeInitialization(Object bean, String beanName) {
         return bean;
@@ -13,13 +13,6 @@ public interface BeanPostProcessor {
      * Invoked after bean.init() called.
      */
     default Object postProcessAfterInitialization(Object bean, String beanName) {
-        return bean;
-    }
-
-    /**
-     * Invoked before bean.setXyz() called.
-     */
-    default Object postProcessOnSetProperty(Object bean, String beanName) {
         return bean;
     }
 }

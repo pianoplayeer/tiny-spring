@@ -15,6 +15,10 @@ import org.jxy.spring.ioc.scan.primary.DogBean;
 import org.jxy.spring.ioc.scan.primary.PersonBean;
 import org.jxy.spring.ioc.scan.primary.StudentBean;
 import org.jxy.spring.ioc.scan.primary.TeacherBean;
+import org.jxy.spring.ioc.scan.proxy.InjectProxyOnConstructorBean;
+import org.jxy.spring.ioc.scan.proxy.InjectProxyOnPropertyBean;
+import org.jxy.spring.ioc.scan.proxy.OriginBean;
+import org.jxy.spring.ioc.scan.proxy.SecondProxyBean;
 import org.jxy.spring.ioc.scan.sub1.Sub1Bean;
 import org.jxy.spring.ioc.scan.sub1.sub2.Sub2Bean;
 import org.jxy.spring.ioc.scan.sub1.sub2.sub3.Sub3Bean;
@@ -26,7 +30,34 @@ import java.util.Properties;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ApplicationContextTest {
-    
+
+    @Test
+    public void testProxy() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        // test proxy:
+        OriginBean proxy = ctx.getBean(OriginBean.class);
+        assertSame(SecondProxyBean.class, proxy.getClass());
+        assertEquals("Scan App", proxy.getName());
+        assertEquals("v1.0", proxy.getVersion());
+        // make sure proxy.field is not injected:
+        assertNull(proxy.name);
+        assertNull(proxy.version);
+
+        // other beans are injected proxy instance:
+        var inject1 = ctx.getBean(InjectProxyOnPropertyBean.class);
+        var inject2 = ctx.getBean(InjectProxyOnConstructorBean.class);
+        assertSame(proxy, inject1.injected);
+        assertSame(proxy, inject2.injected);
+    }
+
+    @Test
+    public void testLazyBean() {
+        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        assertNull(ctx.getBean("lazyBone"));
+        assertNull(ctx.getBean("smallDoor"));
+        assertNotNull(ctx.getBean("door"));
+    }
+
     @Test
     public void testCustomAnnotation() {
         var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
