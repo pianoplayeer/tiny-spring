@@ -29,11 +29,11 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ApplicationContextTest {
+public class AnnotationConfigApplicationContextTest {
 
     @Test
     public void testProxy() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         // test proxy:
         OriginBean proxy = ctx.getBean(OriginBean.class);
         assertSame(SecondProxyBean.class, proxy.getClass());
@@ -52,7 +52,7 @@ public class ApplicationContextTest {
 
     @Test
     public void testLazyBean() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         assertNull(ctx.getBean("lazyBone"));
         assertNull(ctx.getBean("smallDoor"));
         assertNotNull(ctx.getBean("door"));
@@ -60,14 +60,14 @@ public class ApplicationContextTest {
 
     @Test
     public void testCustomAnnotation() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         assertNotNull(ctx.getBean(CustomAnnotationBean.class));
         assertNotNull(ctx.getBean("customAnnotation"));
     }
     
     @Test
     public void testInitMethod() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         // test @PostConstruct:
         var bean1 = ctx.getBean(AnnotationInitBean.class);
         var bean2 = ctx.getBean(SpecifyInitBean.class);
@@ -77,7 +77,7 @@ public class ApplicationContextTest {
     
     @Test
     public void testImport() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         assertNotNull(ctx.getBean(LocalDateConfiguration.class));
         assertNotNull(ctx.getBean("startLocalDate"));
         assertNotNull(ctx.getBean("startLocalDateTime"));
@@ -87,7 +87,7 @@ public class ApplicationContextTest {
     
     @Test
     public void testConverter() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         var bean = ctx.getBean(ValueConverterBean.class);
         
         assertNotNull(bean.injectedBoolean);
@@ -128,14 +128,14 @@ public class ApplicationContextTest {
     
     @Test
     public void testNested() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         ctx.getBean(OuterBean.class);
         ctx.getBean(OuterBean.NestedBean.class);
     }
     
     @Test
     public void testPrimary() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         var person = ctx.getBean(PersonBean.class);
         assertEquals(TeacherBean.class, person.getClass());
         var dog = ctx.getBean(DogBean.class);
@@ -144,7 +144,7 @@ public class ApplicationContextTest {
     
     @Test
     public void testSub() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         ctx.getBean(Sub1Bean.class);
         ctx.getBean(Sub2Bean.class);
         ctx.getBean(Sub3Bean.class);
@@ -152,7 +152,7 @@ public class ApplicationContextTest {
     
     @Test
     public void testApplicationContext() {
-        var ctx = new ApplicationContext(ScanApplication.class, createPropertyResolver());
+        var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
         // @CustomAnnotation:
         assertNotNull(ctx.findBeanDefinition(CustomAnnotationBean.class));
         assertNotNull(ctx.findBeanDefinition("customAnnotation"));

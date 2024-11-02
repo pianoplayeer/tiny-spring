@@ -19,6 +19,7 @@ import java.util.Arrays;
 public class BeanDefinition implements Comparable<BeanDefinition> {
 	private String beanName;
 	
+	@Setter
 	private Class<?> clazz;
 	
 	private Constructor<?> constructor;
