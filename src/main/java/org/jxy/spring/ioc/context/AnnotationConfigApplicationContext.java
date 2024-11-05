@@ -4,10 +4,12 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jxy.spring.aop.processor.AutoProxyCreator;
 import org.jxy.spring.ioc.annotation.*;
 import org.jxy.spring.ioc.exception.*;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.resolver.ResourceResolver;
+import org.jxy.spring.utils.ApplicationContextUtil;
 import org.jxy.spring.utils.ClassUtil;
 
 import java.lang.reflect.*;
@@ -38,6 +40,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 	
 	public AnnotationConfigApplicationContext(Class<?> configClass, PropertyResolver propertyResolver) {
+		ApplicationContextUtil.setApplicationContext(this);
 		this.propertyResolver = propertyResolver;
 
 		Set<String> names = scanForClassNames(configClass);
@@ -73,6 +76,10 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	}
 	
 	private void registerBeanPostProcessors() {
+		BeanPostProcessor aopProcessor = new AutoProxyCreator();
+		ApplicationContextUtil.setAopBeanPostProcessor(aopProcessor);
+		this.beanPostProcessors.add(aopProcessor);
+
 		var processors = beanDefinitionMap.values().stream()
 				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
 				.sorted()
@@ -81,11 +88,18 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 
 		this.beanPostProcessors.addAll(processors);
 	}
-	
+
+	private AutoProxyCreator getAopBeanPostProcessor() {
+		return (AutoProxyCreator) ApplicationContextUtil.getAopBeanPostProcessor();
+	}
+
 	private Object getEarlyObject(String beanName, Object bean) {
-		// TODO: 提前AOP
 		singleObjectFactories.remove(beanName);
+
+		AutoProxyCreator creator = getAopBeanPostProcessor();
+		bean = creator.getEarlyBeanReference(bean, beanName);
 		earlySingleObjects.put(beanName, bean);
+
 		return bean;
 	}
 	
@@ -123,7 +137,6 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 		singleObjectFactories.remove(def.getBeanName());
 		earlySingleObjects.remove(def.getBeanName());
 		singleObjects.put(def.getBeanName(), exposedBean);
-		def.setClazz(exposedBean.getClass());
 
 		return exposedBean;
 	}
