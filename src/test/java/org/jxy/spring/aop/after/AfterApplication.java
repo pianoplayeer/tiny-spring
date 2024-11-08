@@ -1,7 +1,7 @@
 package org.jxy.spring.aop.after;
 
-import org.jxy.spring.ioc.annotation.ComponentScan;
-import org.jxy.spring.ioc.annotation.Configuration;
+import org.jxy.spring.annotation.ComponentScan;
+import org.jxy.spring.annotation.Configuration;
 
 @Configuration
 @ComponentScan

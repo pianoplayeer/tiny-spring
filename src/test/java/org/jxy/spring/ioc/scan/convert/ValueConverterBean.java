@@ -1,7 +1,7 @@
 package org.jxy.spring.ioc.scan.convert;
 
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Value;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Value;
 
 import java.time.*;
 

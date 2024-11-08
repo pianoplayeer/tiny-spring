@@ -1,8 +1,8 @@
 package org.jxy.spring.ioc.scan.proxy;
 
 
-import org.jxy.spring.ioc.annotation.Autowired;
-import org.jxy.spring.ioc.annotation.Component;
+import org.jxy.spring.annotation.Autowired;
+import org.jxy.spring.annotation.Component;
 
 @Component
 public class InjectProxyOnConstructorBean {

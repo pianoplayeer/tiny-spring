@@ -1,8 +1,8 @@
 package org.jxy.spring.aop.processor;
 
 import org.jxy.spring.aop.ProxyResolver;
-import org.jxy.spring.aop.annotation.Aspect;
-import org.jxy.spring.aop.exception.AopProxyException;
+import org.jxy.spring.annotation.Aspect;
+import org.jxy.spring.exception.AopProxyException;
 import org.jxy.spring.ioc.context.BeanDefinition;
 import org.jxy.spring.ioc.context.BeanPostProcessor;
 import org.jxy.spring.ioc.context.ConfigurableApplicationContext;

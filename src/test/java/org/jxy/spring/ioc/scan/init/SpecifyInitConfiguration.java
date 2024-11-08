@@ -1,8 +1,8 @@
 package org.jxy.spring.ioc.scan.init;
 
-import org.jxy.spring.ioc.annotation.Bean;
-import org.jxy.spring.ioc.annotation.Configuration;
-import org.jxy.spring.ioc.annotation.Value;
+import org.jxy.spring.annotation.Bean;
+import org.jxy.spring.annotation.Configuration;
+import org.jxy.spring.annotation.Value;
 
 @Configuration
 public class SpecifyInitConfiguration {

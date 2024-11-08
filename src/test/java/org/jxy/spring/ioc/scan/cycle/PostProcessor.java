@@ -1,6 +1,5 @@
 package org.jxy.spring.ioc.scan.cycle;
 
-import org.jxy.spring.ioc.annotation.Component;
 import org.jxy.spring.ioc.context.BeanPostProcessor;
 
 /**

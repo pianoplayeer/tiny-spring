@@ -1,8 +1,8 @@
 package org.jxy.spring.ioc.scan.lazy;
 
-import org.jxy.spring.ioc.annotation.Bean;
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Lazy;
+import org.jxy.spring.annotation.Bean;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Lazy;
 
 @Component
 public class Door {

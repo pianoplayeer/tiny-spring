@@ -1,8 +1,8 @@
 package org.jxy.spring.aop.around;
 
-import org.jxy.spring.ioc.annotation.Autowired;
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Order;
+import org.jxy.spring.annotation.Autowired;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Order;
 
 @Order(0)
 @Component

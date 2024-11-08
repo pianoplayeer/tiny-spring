@@ -4,20 +4,97 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="开始改造">
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/Door.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/LazyBone.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/FirstProxyBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/FirstProxyBeanPostProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnConstructorBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnPropertyBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/OriginBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/SecondProxyBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/SecondProxyBeanPostProcessor.java" afterDir="false" />
+    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="add circular dependent test case">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/DataAccessException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/ConnectionCallback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/JdbcConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/JdbcTemplate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/PreparedStatementCallback.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/PreparedStatementCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/mapper/BeanRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/mapper/BooleanRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/mapper/NumberRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/mapper/ResultSetExtractor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/mapper/RowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/mapper/StringRowMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc/JdbcTestBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc/without/tx/Address.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc/without/tx/JdbcWithoutTxApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc/without/tx/JdbcWithoutTxTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc/without/tx/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/BeanPostProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/annotation/Aspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Aspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/exception/AopProxyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/AopProxyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/processor/AutoProxyCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/processor/AutoProxyCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Autowired.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Autowired.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Component.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/ComponentScan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/ComponentScan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Import.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Import.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Lazy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Lazy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Primary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Primary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/annotation/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation/Value.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanCreationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/BeanCreationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanDefinitionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/BeanDefinitionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanInitException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/BeanInitException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanInjectionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/BeanInjectionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/BeanTypeNotConsistentException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/BeanTypeNotConsistentException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/NoSuchBeanException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/NoSuchBeanException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/NoUniqueBeanDefinitionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/NoUniqueBeanDefinitionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/exception/UnsatisfiedDependencyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/UnsatisfiedDependencyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/AfterApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/AfterApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/GreetingBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/GreetingBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/PoliteInvocationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/PoliteInvocationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/AroundApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/AroundApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/AroundInvocationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/AroundInvocationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/OriginBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/OriginBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/OtherBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/OtherBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BeforeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BeforeApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BusinessBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BusinessBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/LogInvocationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/LogInvocationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/A.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/B.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/B.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/HandlerA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/HandlerA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/HandlerB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/HandlerB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/HashWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/HashWorker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricInvocationHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricInvocationHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/imported/LocalDateConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/imported/LocalDateConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/imported/ZonedDateConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/imported/ZonedDateConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/ScanApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/ScanApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/convert/ValueConverterBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/convert/ValueConverterBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/custom/annotation/CustomAnnotation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/custom/annotation/CustomAnnotation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/cycle/A.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/cycle/A.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/cycle/B.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/cycle/B.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/cycle/PostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/cycle/PostProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/AnnotationDestroyBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/AnnotationDestroyBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/SpecifyDestroyConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/destroy/SpecifyDestroyConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/AnnotationInitBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/AnnotationInitBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/SpecifyInitConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/init/SpecifyInitConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/Door.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/Door.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/LazyBone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/lazy/LazyBone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/nested/OuterBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/nested/OuterBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/PrimaryConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/PrimaryConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/StudentBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/StudentBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/TeacherBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/primary/TeacherBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/FirstProxyBeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/FirstProxyBeanPostProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnConstructorBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnConstructorBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnPropertyBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/InjectProxyOnPropertyBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/OriginBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/OriginBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/SecondProxyBeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/SecondProxyBeanPostProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/Sub1Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/Sub1Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/sub2/Sub2Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/sub2/Sub2Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/sub2/sub3/Sub3Bean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/sub1/sub2/sub3/Sub3Bean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/utils/AnnoUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/utils/AnnoUtilsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/utils/CustomComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/utils/CustomComponent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +108,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="Interface" />
         <option value="AnnotationType" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -85,11 +162,17 @@
     "JUnit.ApplicationContextTest.testLazyBean.executor": "Run",
     "JUnit.ApplicationContextTest.testProxy.executor": "Run",
     "JUnit.ApplicationContextTest.testSub.executor": "Run",
+    "JUnit.CircularTest.testCircular.executor": "Run",
+    "JUnit.JdbcWithoutTxTest.executor": "Run",
+    "JUnit.MetricProxyTest.testMetricProxy.executor": "Debug",
+    "JUnit.ProxyResolverTest.testProxyResovler.executor": "Run",
+    "Maven.tiny-spring [clean].executor": "Run",
     "Maven.tiny-spring [compile].executor": "Run",
     "Maven.tiny-spring [test].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jxy/IdeaProjects/tiny-spring/src/test/java/org/jxy/spring/ioc/scan/proxy",
+    "last_opened_file_path": "/Users/jxy/IdeaProjects/tiny-spring/src/test/java/org/jxy/spring",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -98,61 +181,17 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring" />
+      <recent name="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation" />
+      <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop" />
       <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy" />
       <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc" />
-      <recent name="$PROJECT_DIR$/src/test/resources" />
-      <recent name="E:\javawork\tiny-spring\src\main\resources" />
-      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.jxy.spring.aop.metric" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ApplicationContextTest.testProxy">
-    <configuration name="ApplicationContextTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tiny-spring" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ApplicationContextTest.testCustomAnnotation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tiny-spring" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
-      <option name="METHOD_NAME" value="testCustomAnnotation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ApplicationContextTest.testLazyBean" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tiny-spring" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
-      <option name="METHOD_NAME" value="testLazyBean" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.JdbcWithoutTxTest">
     <configuration name="ApplicationContextTest.testProxy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
       <extension name="coverage">
@@ -169,36 +208,83 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ApplicationContextTest.testSub" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CircularTest.testCircular" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="tiny-spring" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.jxy.spring.ioc.context.*" />
+          <option name="PATTERN" value="org.jxy.spring.aop.circular.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.jxy.spring.ioc.context" />
-      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.ioc.context.ApplicationContextTest" />
-      <option name="METHOD_NAME" value="testSub" />
+      <option name="PACKAGE_NAME" value="org.jxy.spring.aop.circular" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.aop.circular.CircularTest" />
+      <option name="METHOD_NAME" value="testCircular" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcWithoutTxTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tiny-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jxy.spring.jdbc.without.tx.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.jxy.spring.jdbc.without.tx" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.jdbc.without.tx.JdbcWithoutTxTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MetricProxyTest.testMetricProxy" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tiny-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jxy.spring.aop.metric.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.jxy.spring.aop.metric" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.aop.metric.MetricProxyTest" />
+      <option name="METHOD_NAME" value="testMetricProxy" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProxyResolverTest.testProxyResovler" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tiny-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jxy.spring.aop.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.jxy.spring.aop" />
+      <option name="MAIN_CLASS_NAME" value="org.jxy.spring.aop.ProxyResolverTest" />
+      <option name="METHOD_NAME" value="testProxyResovler" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.ApplicationContextTest.testLazyBean" />
+      <item itemvalue="JUnit.JdbcWithoutTxTest" />
       <item itemvalue="JUnit.ApplicationContextTest.testProxy" />
-      <item itemvalue="JUnit.ApplicationContextTest.testSub" />
-      <item itemvalue="JUnit.ApplicationContextTest" />
-      <item itemvalue="JUnit.ApplicationContextTest.testCustomAnnotation" />
+      <item itemvalue="JUnit.CircularTest.testCircular" />
+      <item itemvalue="JUnit.MetricProxyTest.testMetricProxy" />
+      <item itemvalue="JUnit.ProxyResolverTest.testProxyResovler" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.JdbcWithoutTxTest" />
+        <item itemvalue="JUnit.CircularTest.testCircular" />
+        <item itemvalue="JUnit.MetricProxyTest.testMetricProxy" />
+        <item itemvalue="JUnit.ProxyResolverTest.testProxyResovler" />
         <item itemvalue="JUnit.ApplicationContextTest.testProxy" />
-        <item itemvalue="JUnit.ApplicationContextTest.testLazyBean" />
-        <item itemvalue="JUnit.ApplicationContextTest.testSub" />
-        <item itemvalue="JUnit.ApplicationContextTest" />
-        <item itemvalue="JUnit.ApplicationContextTest.testCustomAnnotation" />
       </list>
     </recent_temporary>
   </component>
@@ -290,7 +376,39 @@
       <option name="project" value="LOCAL" />
       <updated>1729853713314</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="开始改造">
+      <option name="closed" value="true" />
+      <created>1730454777002</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1730454777002</updated>
+    </task>
+    <task id="LOCAL-00011" summary="完成改造">
+      <option name="closed" value="true" />
+      <created>1730458667132</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1730458667132</updated>
+    </task>
+    <task id="LOCAL-00012" summary="aop completed">
+      <option name="closed" value="true" />
+      <created>1730775374496</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1730775374496</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add circular dependent test case">
+      <option name="closed" value="true" />
+      <created>1730776269034</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1730776269034</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +436,10 @@
     <MESSAGE value="完善bean的初始化" />
     <MESSAGE value="BeanPostProcessor start" />
     <MESSAGE value="开始改造" />
-    <option name="LAST_COMMIT_MESSAGE" value="开始改造" />
+    <MESSAGE value="完成改造" />
+    <MESSAGE value="aop completed" />
+    <MESSAGE value="add circular dependent test case" />
+    <option name="LAST_COMMIT_MESSAGE" value="add circular dependent test case" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -346,7 +467,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="constructors.length == 0" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java</url>
-          <line>75</line>
+          <line>71</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -355,30 +476,29 @@
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/ApplicationContextTest.java</url>
-          <line>146</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy/OriginBean.java</url>
           <line>7</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>334</line>
-          <option name="timeStamp" value="45" />
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/ProxyResolverTest.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <condition expression="def.getBeanName().equals(&quot;originBean&quot;)" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>96</line>
-          <option name="timeStamp" value="50" />
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricProxyTest.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/HashWorker.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc/without/tx/JdbcWithoutTxTest.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/resolver/ResourceResolver.java</url>
@@ -397,24 +517,6 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>193</line>
-          <properties class="org.jxy.spring.ioc.context.ApplicationContext" method="doGetBean">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/ApplicationContext.java</url>
-          <line>201</line>
-          <properties class="org.jxy.spring.ioc.context.ApplicationContext" method="doGetBean">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

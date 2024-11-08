@@ -1,8 +1,8 @@
 package org.jxy.spring.ioc.scan.proxy;
 
 
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Order;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Order;
 import org.jxy.spring.ioc.context.BeanPostProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

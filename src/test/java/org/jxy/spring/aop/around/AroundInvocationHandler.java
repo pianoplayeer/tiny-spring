@@ -1,6 +1,6 @@
 package org.jxy.spring.aop.around;
 
-import org.jxy.spring.ioc.annotation.Component;
+import org.jxy.spring.annotation.Component;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

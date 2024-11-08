@@ -1,6 +1,6 @@
 package org.jxy.spring.ioc.scan.custom.annotation;
 
-import org.jxy.spring.ioc.annotation.Component;
+import org.jxy.spring.annotation.Component;
 
 import java.lang.annotation.*;
 

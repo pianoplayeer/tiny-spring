@@ -1,17 +1,13 @@
 package org.jxy.spring.utils;
 
-import org.apache.commons.lang3.AnnotationUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jxy.spring.ioc.annotation.Bean;
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.exception.BeanDefinitionException;
+import org.jxy.spring.annotation.Bean;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.exception.BeanDefinitionException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ClassUtil {
     public static String findBeanName(Class<?> clazz) {

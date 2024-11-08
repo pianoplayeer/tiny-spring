@@ -1,7 +1,7 @@
 package org.jxy.spring.aop.before;
 
 import org.jxy.spring.aop.processor.InvocationHandlerAdapter;
-import org.jxy.spring.ioc.annotation.Component;
+import org.jxy.spring.annotation.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

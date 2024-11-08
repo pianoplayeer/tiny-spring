@@ -1,6 +1,6 @@
 package org.jxy.spring.aop.metric;
 
-import org.jxy.spring.ioc.annotation.Component;
+import org.jxy.spring.annotation.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

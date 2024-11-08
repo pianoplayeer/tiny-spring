@@ -1,8 +1,8 @@
 package org.jxy.spring.aop.around;
 
-import org.jxy.spring.aop.annotation.Aspect;
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Value;
+import org.jxy.spring.annotation.Aspect;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Value;
 
 @Component
 @Aspect("aroundInvocationHandler")

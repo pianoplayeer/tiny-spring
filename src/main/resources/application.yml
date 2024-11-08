@@ -1,9 +1,9 @@
 app:
-  title: Summer Framework
+  title: spring Framework
   version: 1.0.0
 
 # standard structure for datasource, mail, etc:
-summer:
+spring:
   datasource:
     url: jdbc:hsqldb:file:testdb.tmp
     username: sa

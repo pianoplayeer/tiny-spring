@@ -1,9 +1,9 @@
 package org.jxy.spring.aop.circular;
 
 import lombok.Getter;
-import org.jxy.spring.aop.annotation.Aspect;
-import org.jxy.spring.ioc.annotation.Autowired;
-import org.jxy.spring.ioc.annotation.Component;
+import org.jxy.spring.annotation.Aspect;
+import org.jxy.spring.annotation.Autowired;
+import org.jxy.spring.annotation.Component;
 
 @Component
 @Aspect("handlerB")

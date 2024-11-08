@@ -1,8 +1,8 @@
 package org.jxy.spring.ioc.scan.init;
 
 import jakarta.annotation.PostConstruct;
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Value;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Value;
 
 @Component
 public class AnnotationInitBean {

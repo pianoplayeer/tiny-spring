@@ -1,10 +1,10 @@
 package org.jxy.spring.ioc.utils;
 
 import org.junit.jupiter.api.Test;
-import org.jxy.spring.ioc.annotation.Component;
-import org.jxy.spring.ioc.annotation.Configuration;
-import org.jxy.spring.ioc.annotation.Order;
-import org.jxy.spring.ioc.exception.BeanDefinitionException;
+import org.jxy.spring.annotation.Component;
+import org.jxy.spring.annotation.Configuration;
+import org.jxy.spring.annotation.Order;
+import org.jxy.spring.exception.BeanDefinitionException;
 import org.jxy.spring.utils.ClassUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
