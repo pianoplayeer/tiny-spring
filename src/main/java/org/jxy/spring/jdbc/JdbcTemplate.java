@@ -3,6 +3,7 @@ package org.jxy.spring.jdbc;
 import lombok.AllArgsConstructor;
 import org.jxy.spring.exception.DataAccessException;
 import org.jxy.spring.jdbc.mapper.*;
+import org.jxy.spring.jdbc.transaction.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -12,9 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class JdbcTemplate {
     private final DataSource dataSource;
-
+    
     public <T> T queryForObject(String sql, Class<T> clazz, Object... args) throws DataAccessException {
-
         return queryForObject(sql, getRowMapper(clazz), args);
     }
 
@@ -94,6 +94,16 @@ public class JdbcTemplate {
     }
 
     public <T> T execute(ConnectionCallback<T> action) {
+        Connection connection = DataSourceTransactionManager.getCurrentConnection();
+        
+        if (connection != null) {
+            try {
+                return action.doInConnection(connection);
+            } catch (SQLException e) {
+                throw new DataAccessException(e);
+            }
+        }
+        
         try (Connection conn = dataSource.getConnection()) {
             boolean autoCommit = conn.getAutoCommit();
 
