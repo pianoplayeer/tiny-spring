@@ -20,7 +20,7 @@ public class DataSourceTransactionManager implements PlatformTransactionManager,
 
     public static Connection getCurrentConnection() {
         TransactionStatus status = txStatusThreadLocal.get();
-        return status == null ? null : status.getConnection();
+        return status == null ? null : status.connection();
     }
     
     @Override

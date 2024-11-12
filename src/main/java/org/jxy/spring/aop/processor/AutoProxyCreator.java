@@ -8,11 +8,12 @@ import org.jxy.spring.ioc.context.BeanPostProcessor;
 import org.jxy.spring.ioc.context.ConfigurableApplicationContext;
 import org.jxy.spring.utils.ApplicationContextUtil;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AutoProxyCreator implements BeanPostProcessor {
+public class AutoProxyCreator<T extends Annotation> implements BeanPostProcessor {
     private Map<String, Object> earlyBeanReferences = new HashMap<>();
 
     public Object getEarlyBeanReference(Object bean, String beanName) {
@@ -20,9 +21,13 @@ public class AutoProxyCreator implements BeanPostProcessor {
         return wrapIfNecessary(bean);
     }
 
+    private Class<T> getType() {
+
+    }
+
     private Object wrapIfNecessary(Object bean) {
         Class<?> clazz = bean.getClass();
-        Aspect aspect = clazz.getAnnotation(Aspect.class);
+        T aspect = clazz.getAnnotation(T.class);
 
         if (aspect != null) {
             String handlerName = aspect.value();
