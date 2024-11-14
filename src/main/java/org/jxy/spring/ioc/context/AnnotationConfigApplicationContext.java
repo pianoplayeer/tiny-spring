@@ -12,6 +12,7 @@ import org.jxy.spring.ioc.resolver.ResourceResolver;
 import org.jxy.spring.utils.ApplicationContextUtil;
 import org.jxy.spring.utils.ClassUtil;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,10 +77,6 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	}
 	
 	private void registerBeanPostProcessors() {
-		BeanPostProcessor aopProcessor = new AutoProxyCreator();
-		ApplicationContextUtil.setAopBeanPostProcessor(aopProcessor);
-		this.beanPostProcessors.add(aopProcessor);
-
 		var processors = beanDefinitionMap.values().stream()
 				.filter(def -> BeanPostProcessor.class.isAssignableFrom(def.getClazz()))
 				.sorted()
@@ -89,15 +86,16 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 		this.beanPostProcessors.addAll(processors);
 	}
 
-	private AutoProxyCreator getAopBeanPostProcessor() {
-		return (AutoProxyCreator) ApplicationContextUtil.getAopBeanPostProcessor();
+	private List<BeanPostProcessor> getAopBeanPostProcessor() {
+		return ApplicationContextUtil.getAopBeanPostProcessors();
 	}
 
 	private Object getEarlyObject(String beanName, Object bean) {
 		singleObjectFactories.remove(beanName);
 
-		AutoProxyCreator creator = getAopBeanPostProcessor();
-		bean = creator.getEarlyBeanReference(bean, beanName);
+		for (BeanPostProcessor creator : getAopBeanPostProcessor()) {
+			bean = ((AutoProxyCreator<?>) creator).getEarlyBeanReference(bean, beanName);
+		}
 		earlySingleObjects.put(beanName, bean);
 
 		return bean;
@@ -127,7 +125,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 				exposedBean = earlySingletonReference;
 			} else {
 				throw new BeanCreationException(String.format("There exists some beans that are injected of early bean of %s@%s " +
-						"due to circular dependent. And the injected one is not mature.", def.getBeanName(), def.getClazz().getName()));
+						"due to circular dependent. And the injected one is not mature.", def.getBeanName(), def.getClazz().getName()) + " Exposed :" + exposedBean.toString() + ", " + "bean: " + bean);
 			}
 		}
 		

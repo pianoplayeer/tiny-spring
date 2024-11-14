@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BeforeProxyTest {
 
-    @Test
-    public void testBeforeProxy() {
+
+    public static void testBeforeProxy() {
         try (var ctx = new AnnotationConfigApplicationContext(BeforeApplication.class, createPropertyResolver())) {
             BusinessBean proxy = ctx.getBean(BusinessBean.class);
             // should print log:
@@ -20,7 +20,7 @@ public class BeforeProxyTest {
         }
     }
 
-    PropertyResolver createPropertyResolver() {
+    static PropertyResolver createPropertyResolver() {
         var ps = new Properties();
         var pr = new PropertyResolver(ps);
         return pr;

@@ -5,6 +5,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.jxy.spring.annotation.Bean;
 import org.jxy.spring.annotation.Configuration;
 import org.jxy.spring.annotation.Value;
+import org.jxy.spring.aop.processor.AopAnnotationBeanPostProcessor;
+import org.jxy.spring.jdbc.transaction.DataSourceTransactionManager;
+import org.jxy.spring.jdbc.transaction.PlatformTransactionManager;
+import org.jxy.spring.jdbc.transaction.TransactionalBeanPostProcessor;
 
 import javax.sql.DataSource;
 
@@ -39,5 +43,15 @@ public class JdbcConfiguration {
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public TransactionalBeanPostProcessor transactionalBeanPostProcessor() {
+        return new TransactionalBeanPostProcessor();
+    }
+
+    @Bean
+    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }

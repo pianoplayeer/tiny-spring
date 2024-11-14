@@ -1,5 +1,6 @@
 package org.jxy.spring.aop.processor;
 
+import org.jxy.spring.annotation.Transactional;
 import org.jxy.spring.aop.ProxyResolver;
 import org.jxy.spring.annotation.Aspect;
 import org.jxy.spring.exception.AopProxyException;
@@ -10,10 +11,12 @@ import org.jxy.spring.utils.ApplicationContextUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AutoProxyCreator<T extends Annotation> implements BeanPostProcessor {
+public abstract class AutoProxyCreator<T extends Annotation> implements BeanPostProcessor {
     private Map<String, Object> earlyBeanReferences = new HashMap<>();
 
     public Object getEarlyBeanReference(Object bean, String beanName) {
@@ -21,18 +24,37 @@ public class AutoProxyCreator<T extends Annotation> implements BeanPostProcessor
         return wrapIfNecessary(bean);
     }
 
-    private Class<T> getType() {
+    public AutoProxyCreator() {
+        ApplicationContextUtil.addAopBeanPostProcessor(this);
+    }
 
+    @SuppressWarnings("unchecked")
+    private Class<T> getType() {
+        Type superClass = getClass().getGenericSuperclass();
+        if (superClass instanceof Class) {
+            throw new RuntimeException("Missing type parameter.");
+        }
+
+        Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+        return (Class<T>) type;
     }
 
     private Object wrapIfNecessary(Object bean) {
         Class<?> clazz = bean.getClass();
-        T aspect = clazz.getAnnotation(T.class);
+        Class<T> type = getType();
+        T aspect = clazz.getAnnotation(type);
 
         if (aspect != null) {
-            String handlerName = aspect.value();
-            return createProxy(bean, handlerName);
+            try {
+                String handlerName = (String) aspect.annotationType()
+                        .getMethod("value").invoke(aspect);
+                return createProxy(bean, handlerName);
+            } catch (ReflectiveOperationException e) {
+                throw new AopProxyException(String.format("@%s must have value() returned String type.",
+                        aspect.annotationType().getSimpleName()), e);
+            }
         }
+
         return bean;
     }
 

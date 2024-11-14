@@ -5,12 +5,22 @@ import lombok.Setter;
 import org.jxy.spring.ioc.context.ApplicationContext;
 import org.jxy.spring.ioc.context.BeanPostProcessor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ApplicationContextUtil {
     @Getter
-    @Setter
     private static ApplicationContext applicationContext = null;
 
-    @Setter
     @Getter
-    private static BeanPostProcessor aopBeanPostProcessor = null;
+    private static List<BeanPostProcessor> aopBeanPostProcessors = new ArrayList<>();
+
+    public static void setApplicationContext(ApplicationContext context) {
+        aopBeanPostProcessors = new ArrayList<>();
+        applicationContext = context;
+    }
+
+    public static void addAopBeanPostProcessor(BeanPostProcessor processor) {
+        aopBeanPostProcessors.add(processor);
+    }
 }
