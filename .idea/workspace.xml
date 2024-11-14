@@ -4,21 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="改造aop">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/processor/AopAnnotationBeanPostProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/jdbc/transaction/TransactionalBeanPostProcessor.java" afterDir="false" />
+    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="finish tx">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/boot/SpringApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/ContextLoaderListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/DispatcherServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/processor/AutoProxyCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/aop/processor/AutoProxyCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/AopProxyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/exception/AopProxyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ApplicationContextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ApplicationContextUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/AfterApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/after/AfterApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/AroundApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/around/AroundApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BeforeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BeforeApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BeforeProxyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/before/BeforeProxyTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/CircularTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/circular/CircularTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop/metric/MetricApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +81,7 @@
     "JUnit.ApplicationContextTest.testLazyBean.executor": "Run",
     "JUnit.ApplicationContextTest.testProxy.executor": "Run",
     "JUnit.ApplicationContextTest.testSub.executor": "Run",
-    "JUnit.CircularTest.testCircular.executor": "Run",
+    "JUnit.CircularTest.testCircular.executor": "Debug",
     "JUnit.JdbcWithoutTxTest.executor": "Debug",
     "JUnit.MetricProxyTest.executor": "Run",
     "JUnit.MetricProxyTest.testMetricProxy.executor": "Debug",
@@ -99,7 +92,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jxy/IdeaProjects/tiny-spring/src/test/java/org/jxy/spring",
+    "last_opened_file_path": "/Users/jxy/IdeaProjects/tiny-spring/src/test/java/org/jxy/spring/jdbc",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -108,11 +101,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/jdbc" />
       <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring" />
       <recent name="$PROJECT_DIR$/src/main/java/org/jxy/spring/annotation" />
       <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/aop" />
       <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/scan/proxy" />
-      <recent name="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.jxy.spring.aop.metric" />
@@ -386,7 +379,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731408571910</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="finish tx">
+      <option name="closed" value="true" />
+      <created>1731568296100</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1731568296101</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,7 +421,8 @@
     <MESSAGE value="更改annotation与exception位置；&#10;完成jdbcTemplate" />
     <MESSAGE value="start tx" />
     <MESSAGE value="改造aop" />
-    <option name="LAST_COMMIT_MESSAGE" value="改造aop" />
+    <MESSAGE value="finish tx" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish tx" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -488,7 +490,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java</url>
-          <line>126</line>
+          <line>125</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">

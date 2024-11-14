@@ -12,7 +12,6 @@ import org.jxy.spring.ioc.resolver.ResourceResolver;
 import org.jxy.spring.utils.ApplicationContextUtil;
 import org.jxy.spring.utils.ClassUtil;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,7 +40,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 	
 	public AnnotationConfigApplicationContext(Class<?> configClass, PropertyResolver propertyResolver) {
-		ApplicationContextUtil.setApplicationContext(this);
+		ApplicationContextUtil.initApplicationContext(this);
 		this.propertyResolver = propertyResolver;
 
 		Set<String> names = scanForClassNames(configClass);
