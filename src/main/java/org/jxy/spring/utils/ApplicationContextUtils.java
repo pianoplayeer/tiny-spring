@@ -8,7 +8,7 @@ import org.jxy.spring.ioc.context.ConfigurableApplicationContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApplicationContextUtil {
+public class ApplicationContextUtils {
     @Getter
     private static ApplicationContext applicationContext = null;
 

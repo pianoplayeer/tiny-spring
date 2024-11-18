@@ -9,8 +9,8 @@ import org.jxy.spring.aop.processor.AutoProxyCreator;
 import org.jxy.spring.exception.*;
 import org.jxy.spring.ioc.resolver.PropertyResolver;
 import org.jxy.spring.ioc.resolver.ResourceResolver;
-import org.jxy.spring.utils.ApplicationContextUtil;
-import org.jxy.spring.utils.ClassUtil;
+import org.jxy.spring.utils.ApplicationContextUtils;
+import org.jxy.spring.utils.ClassUtils;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -40,7 +40,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 	
 	public AnnotationConfigApplicationContext(Class<?> configClass, PropertyResolver propertyResolver) {
-		ApplicationContextUtil.initApplicationContext(this);
+		ApplicationContextUtils.initApplicationContext(this);
 		this.propertyResolver = propertyResolver;
 
 		Set<String> names = scanForClassNames(configClass);
@@ -86,7 +86,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	}
 
 	private List<BeanPostProcessor> getAopBeanPostProcessor() {
-		return ApplicationContextUtil.getAopBeanPostProcessors();
+		return ApplicationContextUtils.getAopBeanPostProcessors();
 	}
 
 	private Object getEarlyObject(String beanName, Object bean) {
@@ -371,7 +371,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 						field.set(instance, bean);
 					} else {
 						throw new BeanInjectionException(String.format("Bean %s@%s cannot be assigned to type %s field.",
-								ClassUtil.findBeanName(bean.getClass()), bean.getClass().getName(), field.getType().getName()));
+								ClassUtils.findBeanName(bean.getClass()), bean.getClass().getName(), field.getType().getName()));
 					}
 				}
 			}
@@ -498,7 +498,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	
 	
 	private boolean isConfigurationBean(BeanDefinition def) {
-		return ClassUtil.findAnnotation(def.getClazz(), Configuration.class) != null;
+		return ClassUtils.findAnnotation(def.getClazz(), Configuration.class) != null;
 	}
 
 	private void createBeanDefinitions(Set<String> classNames) {
@@ -514,14 +514,14 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 				continue;
 			}
 
-			if (ClassUtil.findAnnotation(clazz, Component.class) != null) {
+			if (ClassUtils.findAnnotation(clazz, Component.class) != null) {
 				var def = new BeanDefinition(
-						ClassUtil.findBeanName(clazz), clazz,
-						ClassUtil.findSuitableConstructor(clazz),
+						ClassUtils.findBeanName(clazz), clazz,
+						ClassUtils.findSuitableConstructor(clazz),
 						getOrder(clazz), clazz.isAnnotationPresent(Primary.class),
-						ClassUtil.findAnnotation(clazz, Lazy.class) != null,
-						ClassUtil.findAnnotationMethod(clazz, PostConstruct.class),
-						ClassUtil.findAnnotationMethod(clazz, PreDestroy.class)
+						ClassUtils.findAnnotation(clazz, Lazy.class) != null,
+						ClassUtils.findAnnotationMethod(clazz, PostConstruct.class),
+						ClassUtils.findAnnotationMethod(clazz, PreDestroy.class)
 				);
 				addBeanDefinition(def);
 			}
@@ -555,7 +555,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 				}
 
 				var def = new BeanDefinition(
-						ClassUtil.findBeanName(method), beanClass,
+						ClassUtils.findBeanName(method), beanClass,
 						getOrder(method), method.isAnnotationPresent(Primary.class),
 						method.isAnnotationPresent(Lazy.class),
 						method, bean.initMethod(), bean.destroyMethod()
@@ -572,7 +572,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	}
 
 	private int getOrder(Class<?> clazz) {
-		Order order = ClassUtil.findAnnotation(clazz, Order.class);
+		Order order = ClassUtils.findAnnotation(clazz, Order.class);
 		return order == null ? Integer.MAX_VALUE : order.value();
 	}
 	
@@ -582,7 +582,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	}
 	
 	private Set<String> scanForClassNames(Class<?> configClass) {
-		ComponentScan scan = ClassUtil.findAnnotation(configClass, ComponentScan.class);
+		ComponentScan scan = ClassUtils.findAnnotation(configClass, ComponentScan.class);
 		String[] scanPackages = scan == null || scan.value().length == 0 ? new String[]{configClass.getPackageName()} : scan.value();
 		Set<String> classNames = new HashSet<>();
 
@@ -599,7 +599,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 			classNames.addAll(list);
 		}
 
-		Import importConfig = ClassUtil.findAnnotation(configClass, Import.class);
+		Import importConfig = ClassUtils.findAnnotation(configClass, Import.class);
 		if (importConfig != null) {
 			for (Class<?> clazz : importConfig.value()) {
 				classNames.add(clazz.getName());

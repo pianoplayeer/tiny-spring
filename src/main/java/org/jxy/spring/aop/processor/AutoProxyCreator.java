@@ -1,13 +1,11 @@
 package org.jxy.spring.aop.processor;
 
-import org.jxy.spring.annotation.Transactional;
 import org.jxy.spring.aop.ProxyResolver;
-import org.jxy.spring.annotation.Aspect;
 import org.jxy.spring.exception.AopProxyException;
 import org.jxy.spring.ioc.context.BeanDefinition;
 import org.jxy.spring.ioc.context.BeanPostProcessor;
 import org.jxy.spring.ioc.context.ConfigurableApplicationContext;
-import org.jxy.spring.utils.ApplicationContextUtil;
+import org.jxy.spring.utils.ApplicationContextUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -25,7 +23,7 @@ public abstract class AutoProxyCreator<T extends Annotation> implements BeanPost
     }
 
     public AutoProxyCreator() {
-        ApplicationContextUtil.addAopBeanPostProcessor(this);
+        ApplicationContextUtils.addAopBeanPostProcessor(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -59,7 +57,7 @@ public abstract class AutoProxyCreator<T extends Annotation> implements BeanPost
     }
 
     private Object createProxy(Object bean, String handlerName) {
-        ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) ApplicationContextUtil.getApplicationContext();
+        ConfigurableApplicationContext ctx = (ConfigurableApplicationContext) ApplicationContextUtils.getApplicationContext();
         Object handler = ctx.getBean(handlerName);
 
         if (handler == null) {

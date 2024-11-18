@@ -3,7 +3,6 @@ package org.jxy.spring.utils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
  * @date 2024/9/15
  * @package org.jxy.utils
  */
-public class YmlUtil {
+public class YmlUtils {
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> loadYml(InputStream inputStream) {
 		Yaml yaml = new Yaml();

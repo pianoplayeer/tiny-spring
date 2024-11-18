@@ -9,7 +9,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-public class ClassUtil {
+public class ClassUtils {
     public static String findBeanName(Class<?> clazz) {
         Component component = clazz.getAnnotation(Component.class);
 
