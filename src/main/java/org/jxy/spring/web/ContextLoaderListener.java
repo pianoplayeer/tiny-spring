@@ -31,7 +31,7 @@ public class ContextLoaderListener implements ServletContextListener {
         var applicationContext = createApplicationContext(servletContext.getInitParameter(CONFIG_PARAM), propertyResolver);
         servletContext.setAttribute(APPLICATION_CONTEXT, applicationContext);
 
-        var dispatcherServlet = new DispatcherServlet();
+        var dispatcherServlet = new DispatcherServlet(applicationContext);
         var dispatcherReg = servletContext.addServlet(DISPATCHER_SERVLET, dispatcherServlet);
         dispatcherReg.addMapping("/");
         dispatcherReg.setLoadOnStartup(0);

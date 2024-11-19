@@ -53,7 +53,8 @@ public class AnnotationConfigApplicationContextTest {
     @Test
     public void testLazyBean() {
         var ctx = new AnnotationConfigApplicationContext(ScanApplication.class, createPropertyResolver());
-        assertNull(ctx.getBean("lazyBone"));
+        assert !ctx.containsBean("lazyBone");
+        assertNotNull(ctx.getBean("lazyBone"));
         assertNull(ctx.getBean("smallDoor"));
         assertNotNull(ctx.getBean("door"));
     }

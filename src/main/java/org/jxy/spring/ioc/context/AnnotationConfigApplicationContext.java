@@ -456,7 +456,13 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getBean(String beanName) {
-		return (T) getSingleton(beanName, false);
+		T bean = (T) getSingleton(beanName, false);
+
+		if (bean == null) {
+			bean = (T) doGetBean(beanName);
+		}
+
+		return bean;
 	}
 	
 	@Override

@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="start boot and web" />
+    <list default="true" id="8136450d-3fa7-4301-bb74-7037d6a2f6a6" name="Changes" comment="通过listener实现ioc容器创建；&#10;开始mvc">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/HandlerMapping.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ApplicationContextUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ApplicationContextUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/ContextLoaderListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/ContextLoaderListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/DispatcherServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/DispatcherServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/Param.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jxy/spring/web/Param.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContextTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/jxy/spring/ioc/context/AnnotationConfigApplicationContextTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,8 +26,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -73,7 +83,7 @@
     "JUnit.ApplicationContextTest.testLazyBean.executor": "Run",
     "JUnit.ApplicationContextTest.testProxy.executor": "Run",
     "JUnit.ApplicationContextTest.testSub.executor": "Run",
-    "JUnit.CircularTest.testCircular.executor": "Debug",
+    "JUnit.CircularTest.testCircular.executor": "Run",
     "JUnit.JdbcWithoutTxTest.executor": "Debug",
     "JUnit.MetricProxyTest.executor": "Run",
     "JUnit.MetricProxyTest.testMetricProxy.executor": "Debug",
@@ -387,7 +397,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731575218646</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="通过listener实现ioc容器创建；&#10;开始mvc">
+      <option name="closed" value="true" />
+      <created>1731926806247</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1731926806247</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -423,7 +441,8 @@
     <MESSAGE value="改造aop" />
     <MESSAGE value="finish tx" />
     <MESSAGE value="start boot and web" />
-    <option name="LAST_COMMIT_MESSAGE" value="start boot and web" />
+    <MESSAGE value="通过listener实现ioc容器创建；&#10;开始mvc" />
+    <option name="LAST_COMMIT_MESSAGE" value="通过listener实现ioc容器创建；&#10;开始mvc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -450,7 +469,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="constructors.length == 0" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtil.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/jxy/spring/utils/ClassUtils.java</url>
           <line>71</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
