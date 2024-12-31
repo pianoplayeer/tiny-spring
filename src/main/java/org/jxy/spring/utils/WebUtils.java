@@ -12,6 +12,8 @@ import java.util.Properties;
 
 @Slf4j
 public class WebUtils {
+    public static final String REQUEST_PARAM_DEFAULT = "\0\0\t\n\n\0\r\r";
+
     private static final String CONFIG_APP_YML = "/application.yml";
 
     private static final String CONFIG_APP_PROP = "/application.properties";

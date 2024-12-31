@@ -8,7 +8,9 @@ import java.util.List;
 public class HandlerMapping {
     private List<Handler> handlers = new ArrayList<>();
 
-    public Handler getHandler(HttpServletRequest request) {
+    private List<HandlerInterceptor> interceptors = new ArrayList<>();
+
+    public HandlerExecutionChain getHandlerChain(HttpServletRequest request) {
 
     }
 }

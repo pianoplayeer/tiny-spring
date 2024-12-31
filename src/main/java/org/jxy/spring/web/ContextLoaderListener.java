@@ -1,6 +1,5 @@
 package org.jxy.spring.web;
 
-import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import org.jxy.spring.exception.ContextInitializationException;
