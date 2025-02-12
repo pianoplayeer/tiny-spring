@@ -30,12 +30,12 @@ public class Handler {
     Method handlerMethod;
     // 方法参数:
     Param[] methodParameters;
-
+    
     public boolean matches(String url) {
         return urlPattern.matcher(url).matches();
     }
 
-    public Result handle(String url, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Object handle(String url, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object[] arguments = new Object[methodParameters.length];
         Matcher matcher = urlPattern.matcher(url);
 
@@ -76,8 +76,15 @@ public class Handler {
                     }
                 }
             };
-
         }
+        
+        Object obj;
+        try {
+            obj = this.handlerMethod.invoke(this.controller, arguments);
+        } catch (ReflectiveOperationException e) {
+            throw new ServerErrorException(e);
+        }
+        return obj;
     }
 
     private String getOrDefault(HttpServletRequest request, String name, String defaultValue) {

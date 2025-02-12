@@ -480,7 +480,7 @@ public class AnnotationConfigApplicationContext implements ConfigurableApplicati
 		try {
 			BeanDefinition def = findBeanDefinition(type);
 			return getBean(def.getBeanName());
-		} catch (Exception _) {
+		} catch (Exception ignored) {
 		}
 
 		return null;

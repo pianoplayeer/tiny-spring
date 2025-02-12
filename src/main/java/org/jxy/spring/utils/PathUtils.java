@@ -1,5 +1,6 @@
 package org.jxy.spring.utils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jakarta.servlet.ServletException;
@@ -12,5 +13,11 @@ public class PathUtils {
         }
 
         return Pattern.compile("^" + regPath + "$");
+    }
+    
+    public static void main(String[] args) throws ServletException {
+        Pattern p = compile("/api/.*");
+        Matcher matcher = p.matcher("/api/");
+        System.out.println(matcher.matches());
     }
 }
