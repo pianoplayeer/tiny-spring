@@ -1,8 +1,15 @@
 package org.jxy.spring.utils;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class FileUtils {
+    public static String readFile(String path, Charset charset) {
+        byte[] content = doWithStream(path, InputStream::readAllBytes);
+        return new String(content, charset);
+    }
+    
     public static <T> T doWithStream(String path, InputStreamCallback<T> callback) {
         try (InputStream stream = getInputStream(path)) {
             if (stream == null) {
